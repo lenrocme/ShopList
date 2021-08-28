@@ -22,7 +22,7 @@ import kotlin.collections.ArrayList
 class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
     lateinit var binding: FragmentShopItemsBinding
     val adapterShopItem = AdapterShopItem(this)
-    lateinit var arrListShopItem: ArrayList<ShopItem>//LinkedList<ShopItem>
+    lateinit var arrListShopItem: ArrayList<ShopItemData>//LinkedList<ShopItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
 
    private fun onClickAddNewShopItem() = with(binding){
         if(tvAddShopItem.text.isNotEmpty()) {
-            val shopItem = ShopItem(tvAddShopItem.text.toString(), false)
+            val shopItem = ShopItemData(tvAddShopItem.text.toString(), false)
             adapterShopItem.addShopItem(shopItem)
             tvAddShopItem.text.clear()
             rcView.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -115,7 +115,7 @@ class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
     private fun loadData() {
         val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre", MODE_PRIVATE)
         val json: String? = sharedPre.getString("shopItemsList", null)
-        val type = object : TypeToken<ArrayList<ShopItem?>?>() {}.type
+        val type = object : TypeToken<ArrayList<ShopItemData?>?>() {}.type
         arrListShopItem = Gson().fromJson(json, type)
         if(arrListShopItem.isNullOrEmpty())
             arrListShopItem = ArrayList()
