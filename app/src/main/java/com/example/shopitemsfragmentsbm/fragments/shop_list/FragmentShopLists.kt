@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.graphics.component2
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shopitemsfragmentsbm.MainActivity
 import com.example.shopitemsfragmentsbm.R
 import com.example.shopitemsfragmentsbm.SwipeLeftToUndo
 import com.example.shopitemsfragmentsbm.SwipeRightToWriteAsDone
@@ -74,11 +76,17 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             adapterShopList.addShopItem(shopItem)
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
+            loadFragmentShopItems()
         }
     }
 
     override fun onItemClickDelete(position: Int) {
         adapterShopList.deleteItem(position)
+    }
+
+    //get change fragment, load data with variable asa name of the list
+    fun loadFragmentShopItems(){
+        (activity as MainActivity).binding.bottomNavigationView.selectedItemId = R.id.shop_items
     }
 
     //override fun onItemClickCreate(position: Int) {}
@@ -122,6 +130,8 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         if(arrListShopLists.isNullOrEmpty())
             arrListShopLists = ArrayList()
     }
+
+
 
 
     //singleton

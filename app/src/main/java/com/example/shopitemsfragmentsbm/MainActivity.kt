@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
        //setDarkLightDefaultThemeMode()
+        openFragment(R.id.place_holder, FragmentShopLists.newInstance())
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.shop_list -> {openFragment(R.id.place_holder, FragmentShopLists.newInstance())}
@@ -93,4 +94,8 @@ class MainActivity : AppCompatActivity() {
         selectorTheme = sharedPre.getInt("ThemeMode", 0)
     }
 
+    companion object{
+        @JvmStatic
+        fun newInstance() = MainActivity()
+    }
 }

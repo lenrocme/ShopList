@@ -24,7 +24,7 @@
                 android:id="@+id/edTCreateNewShopList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:ems="10"
                 android:hint="Create new ShopList"
                 android:inputType="textPersonName" />
@@ -35,7 +35,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                tools:src="@drawable/ic_baseline_add_circle_outline_24" />
+                app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
 
         </LinearLayout>
 
