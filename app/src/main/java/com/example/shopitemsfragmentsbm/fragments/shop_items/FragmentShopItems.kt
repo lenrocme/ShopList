@@ -1,5 +1,6 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_items
 
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -105,7 +106,7 @@ class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
     }
 
    private fun saveArrays() {
-       val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre", MODE_PRIVATE)
+       val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre", Context.MODE_PRIVATE)
        val editor: SharedPreferences.Editor = sharedPre.edit()
        val json =
            Gson().toJson(adapterShopItem.shopItemsList) // list from ShopItemAdapter with all elements
@@ -113,12 +114,14 @@ class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
        editor.apply()
    }
     private fun loadData() {
-        val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre", MODE_PRIVATE)
+        val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre", Context.MODE_PRIVATE)
         val json: String? = sharedPre.getString("shopItemsList", null)
         val type = object : TypeToken<ArrayList<ShopItemData?>?>() {}.type
-        arrListShopItem = Gson().fromJson(json, type)
-        if(arrListShopItem.isNullOrEmpty())
-            arrListShopItem = ArrayList()
+        val arr: ArrayList<ShopItemData>? = Gson().fromJson(json, type)
+        arrListShopItem = if(arr.isNullOrEmpty())
+            ArrayList()
+        else
+            arr
     }
 
     companion object {

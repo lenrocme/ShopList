@@ -1,6 +1,7 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_list
 
 import android.graphics.Paint
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,14 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 class AdapterShopList(private val listener: OnItemClickListenerShopList): RecyclerView.Adapter<AdapterShopList.ItemHolder>() {
-        private lateinit var rcView: RecyclerView
+        //private lateinit var rcView: RecyclerView
         var shopList = LinkedList<ShopListData>()
 
         inner class ItemHolder(item: View): RecyclerView.ViewHolder(item), View.OnClickListener {
@@ -29,6 +34,11 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
                 iconDeleteShopList.setImageResource(IC_DELETE)
                 iconInfoShopList.setImageResource(R.drawable.ic_info_shop_list)
                 tvNameShopList.text = shopList.itemName
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    tvAddedDate.text = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                }
+                //tvChangedDate.text = "changed
+                //tvCountItemsShopList.text = "Nr. #"
             }
             init {
                 binding.iconDeleteShopList.setOnClickListener(this)
@@ -55,7 +65,7 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.shop_item, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.shop_list_rcview_item, parent, false)
             return ItemHolder(view)
         }
 
@@ -67,8 +77,8 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
             return shopList.size
         }
 
-        fun addShopItem(shopItem: ShopListData){
-            shopList.addFirst(shopItem)
+        fun addShopItem(shopListItem: ShopListData){
+            shopList.addFirst(shopListItem)
             notifyItemInserted(0)
         }
 
@@ -90,7 +100,7 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
             return shopList[pos].itemName
         }
 
-        fun setRecycleView(rcView: RecyclerView) {
+        /*fun setRecycleView(rcView: RecyclerView) {
             this.rcView = rcView
-        }
+        }*/
 }
