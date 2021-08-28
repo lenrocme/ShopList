@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class AdapterShopList(private val listener: OnItemClickListener): RecyclerView.Adapter<AdapterShopList.ItemHolder>() {
+class AdapterShopList(private val listener: OnItemClickListenerShopList): RecyclerView.Adapter<AdapterShopList.ItemHolder>() {
         private lateinit var rcView: RecyclerView
         var shopList = LinkedList<ShopListData>()
 
@@ -49,7 +49,7 @@ class AdapterShopList(private val listener: OnItemClickListener): RecyclerView.A
             }
         }
 
-        interface OnItemClickListener{
+        interface OnItemClickListenerShopList{
             fun onItemClickDelete(position: Int)    // delete selectedItem from shop items
             fun onItemClickCreate(position: Int)
         }
@@ -72,12 +72,12 @@ class AdapterShopList(private val listener: OnItemClickListener): RecyclerView.A
             notifyItemInserted(0)
         }
 
-        /*fun deleteItem(pos: Int) {
-            if(shopItemsList[pos].stateItem) // if text is crossover, after delete this element count--
-                countItemDoneAsTrue--
-            shopItemsList.removeAt(pos)
+        fun deleteItem(pos: Int) {
+            //if(shopItemsList[pos].stateItem) // if text is crossover, after delete this element count--
+           //     countItemDoneAsTrue--
+            shopList.removeAt(pos)
             notifyItemRemoved(pos)
-        }*/
+        }
         // make text in this label cross out, and move it at the end of the list with non cross out text in rcView
 
 

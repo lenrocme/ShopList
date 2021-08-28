@@ -38,7 +38,7 @@ class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
-        binding.imageView.setOnClickListener{
+        binding.imgCreateNewItem.setOnClickListener{
             onClickAddNewShopItem()
         }
         initRcView()

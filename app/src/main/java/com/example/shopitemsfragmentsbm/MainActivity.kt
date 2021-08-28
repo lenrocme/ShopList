@@ -10,12 +10,12 @@ import com.example.shopitemsfragmentsbm.databinding.ActivityMainBinding
 import com.example.shopitemsfragmentsbm.fragments.info_guide.FragmentInfoGuide
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import com.example.shopitemsfragmentsbm.fragments.shop_list.FragmentShopLists
-import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItem
+import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemData
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    private lateinit var temporArr: ArrayList<ShopItem>
+    private lateinit var temporArr: ArrayList<ShopItemData>
     private var selectorTheme: Int = 0 // 0 for default, 1 for Light Theme, -1 for Dark Theme
 
     override fun onCreate(savedInstanceState: Bundle?) {
