@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/shop_list"
+        android:icon="@drawable/ic_shop_list"
+        android:title="Shoplists"
+        android:orderInCategory="1"/>
+    <item
+        android:id="@+id/shop_items"
+        android:icon="@drawable/ic_shop_items"
+        android:title="List"
+        android:orderInCategory="2"/>
+    <item
+        android:id="@+id/info_guide"
+        android:icon="@drawable/ic_info_btm"
+        android:title="Info"
+        android:orderInCategory="3"/>
+    <item
+        android:id="@+id/dark_light_mode"
+        android:icon="@drawable/ic_mode_light"
+        android:title="Dark/Light"
+        android:orderInCategory="4"/>
+</menu>
