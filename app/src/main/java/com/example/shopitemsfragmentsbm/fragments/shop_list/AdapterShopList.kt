@@ -10,7 +10,6 @@ import com.example.shopitemsfragmentsbm.databinding.ShopItemBinding
 import com.example.shopitemsfragmentsbm.databinding.ShopListRcviewItemBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_CREATE
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_DELETE
-import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -20,7 +19,7 @@ import java.util.*
 
 class AdapterShopList(private val listener: OnItemClickListener): RecyclerView.Adapter<AdapterShopList.ItemHolder>() {
         private lateinit var rcView: RecyclerView
-        var shopList = LinkedList<ShopItem>()
+        var shopList = LinkedList<ShopListData>()
 
         inner class ItemHolder(item: View): RecyclerView.ViewHolder(item), View.OnClickListener {
             private val binding = ShopListRcviewItemBinding.bind(item)
@@ -68,7 +67,7 @@ class AdapterShopList(private val listener: OnItemClickListener): RecyclerView.A
             return shopList.size
         }
 
-        fun addShopItem(shopItem: ShopItem){
+        fun addShopItem(shopItem: ShopListData){
             shopList.addFirst(shopItem)
             notifyItemInserted(0)
         }
@@ -88,7 +87,7 @@ class AdapterShopList(private val listener: OnItemClickListener): RecyclerView.A
         }
 
         fun getShopItemName(pos: Int): String {
-            return shopItemsList[pos].itemName
+            return shopList[pos].itemName
         }
 
         fun setRecycleView(rcView: RecyclerView) {
