@@ -1,8 +1,5 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_items
 
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,15 +11,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopitemsfragmentsbm.*
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopItemsBinding
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.shopitemsfragmentsbm.fragments.shop_list.LIST_NAME
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
+class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
     lateinit var binding: FragmentShopItemsBinding
     val adapterShopItem = AdapterShopItem(this)
+    lateinit var nameOfList: String
     lateinit var arrListShopItem: ArrayList<ShopItemData>//LinkedList<ShopItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,14 +44,16 @@ class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
 
     override fun onStart() {
         super.onStart()
-        loadData()
+        arrListShopItem = SharedPreference().loadShopItemSharedPref(requireActivity(), LIST_NAME!!)
+        //loadData()
         adapterShopItem.shopItemsList = LinkedList(arrListShopItem) //make a linkedLIst from add list and load in adapter
         adapterShopItem.setRecycleView(binding.rcView)      //send rcView object to Adapter
     }
 
     override fun onStop() {
         super.onStop()
-        saveArrays()
+        SharedPreference().saveShopItemsSharedPref(requireActivity(), LIST_NAME!!, adapterShopItem.shopItemsList)
+        //saveArrays()
     }
 
     private fun initRcView() = with(binding){
@@ -103,25 +102,6 @@ class FragmentShopItems : Fragment(), AdapterShopItem.OnItemClickListener {
             setView(dialogView)
             show()
         }
-    }
-
-   private fun saveArrays() {
-       val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre", Context.MODE_PRIVATE)
-       val editor: SharedPreferences.Editor = sharedPre.edit()
-       val json =
-           Gson().toJson(adapterShopItem.shopItemsList) // list from ShopItemAdapter with all elements
-       editor.putString("shopItemsList", json)
-       editor.apply()
-   }
-    private fun loadData() {
-        val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre", Context.MODE_PRIVATE)
-        val json: String? = sharedPre.getString("shopItemsList", null)
-        val type = object : TypeToken<ArrayList<ShopItemData?>?>() {}.type
-        val arr: ArrayList<ShopItemData>? = Gson().fromJson(json, type)
-        arrListShopItem = if(arr.isNullOrEmpty())
-            ArrayList()
-        else
-            arr
     }
 
     companion object {

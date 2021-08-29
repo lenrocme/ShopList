@@ -1,7 +1,5 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_list
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,18 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.core.graphics.component2
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopitemsfragmentsbm.MainActivity
 import com.example.shopitemsfragmentsbm.R
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopListsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.ArrayList
 
-
+var LIST_NAME: String? = null
 class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopList {
     lateinit var binding: FragmentShopListsBinding
     lateinit var arrListShopLists: ArrayList<ShopListData>
@@ -49,14 +44,14 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
 
     override fun onStart() {
         super.onStart()
-        loadData()
+        arrListShopLists =  SharedPreference().loadShopListSharedPref(requireActivity()) //SharedPreferenceGlobal().loadShopListSharedPref(requireActivity())
         adapterShopList.shopList = LinkedList(arrListShopLists) //make a linkedLIst from add list and load in adapter
-       // adapterShopList.setRecycleView(binding.rcViewShopList)      //send rcView object to Adapter
     }
 
     override fun onStop() {
         super.onStop()
-        saveArrays()
+        SharedPreference().saveShopListSharedPref(requireActivity(), adapterShopList.shopList)
+        //SharedPreferenceGlobal().saveShopListSharedPref(requireActivity(), adapterShopList.shopList)
     }
 
     private fun initRcView() = with(binding){
@@ -72,8 +67,16 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             adapterShopList.addShopItem(shopItem)
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
-            //loadFragmentShopItems()
         }
+    }
+    // select a shoplist and laod data to new fragment with all items
+    override fun onItemCLickGoToList(position: Int) {
+        val shopListName: String = adapterShopList.shopList[position].itemName
+        LIST_NAME = shopListName
+        //FragmentShopItems.newInstance().setNameList(shopListName)
+        //SHOP_ITEM_ARR = SharedPreferenceGlobal().loadShopItemSharedPref(requireActivity(), shopListName)
+        loadFragmentShopItems()
+
     }
 
     override fun onItemClickDelete(position: Int) {
@@ -81,7 +84,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     }
 
     //get change fragment, load data with variable asa name of the list
-    fun loadFragmentShopItems(){
+    private fun loadFragmentShopItems(){
         (activity as MainActivity).binding.bottomNavigationView.selectedItemId = R.id.shop_items
     }
 
@@ -108,29 +111,6 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             show()
         }
     }
-
-    private fun saveArrays() {
-        val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre3", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPre.edit()
-        val json =
-                Gson().toJson(adapterShopList.shopList) // list from ShopItemAdapter with all elements
-        editor.putString("shopLists", json)
-        editor.apply()
-    }
-
-    private fun loadData() {
-        val sharedPre: SharedPreferences = requireContext().getSharedPreferences("shared pre3", Context.MODE_PRIVATE)
-        val json: String? = sharedPre.getString("shopLists", null)
-        val type = object : TypeToken<ArrayList<ShopListData?>?>() {}.type
-        val arr: ArrayList<ShopListData>? = Gson().fromJson(json, type)
-        arrListShopLists = if(arr.isNullOrEmpty())
-            ArrayList()
-        else
-            arr
-    }
-
-
-
 
     //singleton
     companion object {

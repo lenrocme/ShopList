@@ -43,7 +43,7 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
             init {
                 binding.iconDeleteShopList.setOnClickListener(this)
                 binding.iconCreateShopList.setOnClickListener(this)
-
+                binding.tvNameShopList.setOnClickListener(this)
             }
 
             override fun onClick(v: View?) {
@@ -55,6 +55,9 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
 
                     else if (v?.id == binding.iconCreateShopList.id)    //same for createIcon
                         listener.onItemClickCreate(position)
+
+                    else if ( v?.id == binding.tvNameShopList.id)
+                        listener.onItemCLickGoToList(position)
                 }
             }
         }
@@ -62,6 +65,7 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
         interface OnItemClickListenerShopList{
             fun onItemClickDelete(position: Int)    // delete selectedItem from shop items
             fun onItemClickCreate(position: Int)
+            fun onItemCLickGoToList(position: Int)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
