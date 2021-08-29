@@ -6,7 +6,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 var SELECTOR_THEME = 0
 open class SetThemeMode: MainActivity() {
-    private var selectorTheme: Int = 0 // 0 for default, 1 for Light Theme, -1 for Dark Theme
 
     fun changeThemeMode(bottomNavigationView: BottomNavigationView) {
         SELECTOR_THEME++
@@ -16,7 +15,6 @@ open class SetThemeMode: MainActivity() {
     }
 
     fun setThemeMode(bottomNavigationView: BottomNavigationView){
-        //binding.bottomNavigationView.itemIconTintList = null
         val menu: MenuItem? = bottomNavigationView.menu.getItem(3)
         when(SELECTOR_THEME){
             -1 -> {

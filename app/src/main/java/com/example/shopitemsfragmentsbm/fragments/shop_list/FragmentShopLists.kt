@@ -15,12 +15,13 @@ import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import java.util.*
 import kotlin.collections.ArrayList
 
-var LIST_NAME: String? = null
+var LAST_SELECTED_SHOP_LIST: String? = null
+var SHOP_LIST_Index: String? = null
 class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopList {
     lateinit var binding: FragmentShopListsBinding
     lateinit var arrListShopLists: ArrayList<ShopListData>
     val adapterShopList = AdapterShopList(this)
-
+    var indexShopListarr: ArrayList<Int> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +45,15 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
 
     override fun onStart() {
         super.onStart()
-        arrListShopLists =  SharedPreference().loadShopListSharedPref(requireActivity()) //SharedPreferenceGlobal().loadShopListSharedPref(requireActivity())
+        indexShopListarr = ShopListSharedPreference(requireActivity()).loadIndexShopListArr()
+        arrListShopLists =  ShopListSharedPreference(requireActivity()).loadShopListSharedPref() //SharedPreferenceGlobal().loadShopListSharedPref(requireActivity())
         adapterShopList.shopList = LinkedList(arrListShopLists) //make a linkedLIst from add list and load in adapter
     }
 
     override fun onStop() {
         super.onStop()
-        SharedPreference().saveShopListSharedPref(requireActivity(), adapterShopList.shopList)
+        ShopListSharedPreference(requireActivity()).saveShopListSharedPref(adapterShopList.shopList)
+        ShopListSharedPreference(requireActivity()).saveIndexShopListArr(indexShopListarr)
         //SharedPreferenceGlobal().saveShopListSharedPref(requireActivity(), adapterShopList.shopList)
     }
 
@@ -63,7 +66,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
 
     private fun onClickAddNewShopItem() = with(binding){
         if(edTCreateNewShopList.text.isNotEmpty()) {
-            val shopItem = ShopListData(edTCreateNewShopList.text.toString())
+            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), addIndexShopList())
             adapterShopList.addShopItem(shopItem)
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -71,16 +74,14 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     }
     // select a shoplist and laod data to new fragment with all items
     override fun onItemCLickGoToList(position: Int) {
-        val shopListName: String = adapterShopList.shopList[position].itemName
-        LIST_NAME = shopListName
-        //FragmentShopItems.newInstance().setNameList(shopListName)
-        //SHOP_ITEM_ARR = SharedPreferenceGlobal().loadShopItemSharedPref(requireActivity(), shopListName)
+        val shopListIndex: String = adapterShopList.shopList[position].indexShopList.toString()
+        SHOP_LIST_Index = shopListIndex
         loadFragmentShopItems()
-
     }
 
     override fun onItemClickDelete(position: Int) {
         adapterShopList.deleteItem(position)
+        deleteIndexShopList(adapterShopList.shopList[position].indexShopList)
     }
 
     //get change fragment, load data with variable asa name of the list
@@ -89,7 +90,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     }
 
     //override fun onItemClickCreate(position: Int) {}
-    override fun onItemClickCreate(position: Int) {
+    override fun onItemClickEdit(position: Int) {
         val itemName = adapterShopList.getShopItemName(position)
         val inflater = layoutInflater
         val dialogView = inflater.inflate(R.layout.edit_shop_item_dialog, null)
@@ -98,7 +99,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         editText.setText(itemName)
 
         with(builder){
-            setTitle("Edit product name")
+            setTitle("Edit ShopList name")
             editText.selectAll()
             editText.requestFocus()
             setPositiveButton("OK"){ dialog, which ->
@@ -110,6 +111,20 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             setView(dialogView)
             show()
         }
+    }
+
+    fun addIndexShopList():Int{
+        if(indexShopListarr.isNullOrEmpty())
+            indexShopListarr.add(1) // mean all elements a deleted, so we can write as new install , first element with index 1
+        else{
+            indexShopListarr.add(indexShopListarr.last() + 1) //increase with 1 and add as next index
+        }
+        return indexShopListarr.last()
+    }
+
+    // bc index is uniqe, we gonna delete first finded element
+    fun deleteIndexShopList(element: Int){
+        indexShopListarr.remove(element)
     }
 
     //singleton

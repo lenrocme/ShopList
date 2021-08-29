@@ -1,22 +1,13 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_list
 
-import android.graphics.Paint
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopitemsfragmentsbm.R
-import com.example.shopitemsfragmentsbm.databinding.ShopItemBinding
 import com.example.shopitemsfragmentsbm.databinding.ShopListRcviewItemBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_CREATE
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_DELETE
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -54,7 +45,7 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
                         listener.onItemClickDelete(position)
 
                     else if (v?.id == binding.iconCreateShopList.id)    //same for createIcon
-                        listener.onItemClickCreate(position)
+                        listener.onItemClickEdit(position)
 
                     else if ( v?.id == binding.tvNameShopList.id)
                         listener.onItemCLickGoToList(position)
@@ -64,7 +55,7 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
 
         interface OnItemClickListenerShopList{
             fun onItemClickDelete(position: Int)    // delete selectedItem from shop items
-            fun onItemClickCreate(position: Int)
+            fun onItemClickEdit(position: Int)
             fun onItemCLickGoToList(position: Int)
         }
 

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopitemsfragmentsbm.*
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopItemsBinding
-import com.example.shopitemsfragmentsbm.fragments.shop_list.LIST_NAME
+import com.example.shopitemsfragmentsbm.fragments.shop_list.SHOP_LIST_Index
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,7 +44,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
 
     override fun onStart() {
         super.onStart()
-        arrListShopItem = SharedPreference().loadShopItemSharedPref(requireActivity(), LIST_NAME!!)
+        arrListShopItem = ShopItemsSharedPreference().loadShopItemSharedPref(requireActivity(), SHOP_LIST_Index!!)
         //loadData()
         adapterShopItem.shopItemsList = LinkedList(arrListShopItem) //make a linkedLIst from add list and load in adapter
         adapterShopItem.setRecycleView(binding.rcView)      //send rcView object to Adapter
@@ -52,7 +52,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
 
     override fun onStop() {
         super.onStop()
-        SharedPreference().saveShopItemsSharedPref(requireActivity(), LIST_NAME!!, adapterShopItem.shopItemsList)
+        ShopItemsSharedPreference().saveShopItemsSharedPref(requireActivity(), SHOP_LIST_Index!!, adapterShopItem.shopItemsList)
         //saveArrays()
     }
 
@@ -96,6 +96,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             setPositiveButton("OK"){ dialog, which ->
                 adapterShopItem.editShopItemInDialog(position,
                     editText.text.toString())
+                setTitle("")
             }
             setNegativeButton("Cancel"){ dialog, which->
             }

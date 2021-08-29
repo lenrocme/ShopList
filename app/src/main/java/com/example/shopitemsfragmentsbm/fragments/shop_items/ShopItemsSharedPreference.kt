@@ -9,11 +9,11 @@ import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SharedPreference {
+class ShopItemsSharedPreference {
 
-    fun loadShopItemSharedPref(activity: Activity, listName:String) : ArrayList<ShopItemData> {
+    fun loadShopItemSharedPref(activity: Activity, listIndex:String) : ArrayList<ShopItemData> {
         val sharedPre: SharedPreferences = activity.getSharedPreferences("shared pre", Context.MODE_PRIVATE)
-        val json: String? = sharedPre.getString(listName, null)
+        val json: String? = sharedPre.getString(listIndex, null)
         val type = object : TypeToken<ArrayList<ShopItemData?>?>() {}.type
         val arr: ArrayList<ShopItemData>? = Gson().fromJson(json, type)
         return if(arr.isNullOrEmpty())
@@ -22,12 +22,12 @@ class SharedPreference {
             arr
     }
 
-    fun saveShopItemsSharedPref(activity: Activity, listName: String, linkedList: LinkedList<ShopItemData>) {
+    fun saveShopItemsSharedPref(activity: Activity, listIndex: String, linkedList: LinkedList<ShopItemData>) {
         val sharedPre: SharedPreferences = activity.getSharedPreferences("shared pre", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPre.edit()
         val json =
                 Gson().toJson(linkedList) // list from ShopItemAdapter with all elements
-        editor.putString(listName, json)
+        editor.putString(listIndex, json)
         editor.apply()
     }
 }
