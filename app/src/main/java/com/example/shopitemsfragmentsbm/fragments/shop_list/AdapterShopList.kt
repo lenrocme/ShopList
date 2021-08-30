@@ -1,13 +1,16 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_list
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shopitemsfragmentsbm.MainActivity
 import com.example.shopitemsfragmentsbm.R
 import com.example.shopitemsfragmentsbm.databinding.ShopListRcviewItemBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_CREATE
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_DELETE
+import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemsSharedPreference
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -29,7 +32,8 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
                     tvAddedDate.text = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
                 }
                 //tvChangedDate.text = "changed
-                //tvCountItemsShopList.text = "Nr. #"
+                tvCountItemsShopList.text =
+                    ShopItemsSharedPreference().getCountNrItemsInOneShopList(iconCreateShopList.context as Activity, shopList.indexShopList)
             }
             init {
                 binding.iconDeleteShopList.setOnClickListener(this)

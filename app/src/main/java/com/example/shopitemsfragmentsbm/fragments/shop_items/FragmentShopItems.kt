@@ -3,6 +3,7 @@ package com.example.shopitemsfragmentsbm.fragments.shop_items
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -11,16 +12,17 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopitemsfragmentsbm.*
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopItemsBinding
-import com.example.shopitemsfragmentsbm.fragments.shop_list.SHOP_LIST_Index
+import com.example.shopitemsfragmentsbm.fragments.shop_list.*
+import com.google.android.material.internal.NavigationMenu
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
     lateinit var binding: FragmentShopItemsBinding
-    val adapterShopItem = AdapterShopItem(this)
+    private val adapterShopItem = AdapterShopItem(this)
     lateinit var nameOfList: String
-    lateinit var arrListShopItem: ArrayList<ShopItemData>//LinkedList<ShopItem>
+    private lateinit var arrListShopItem: ArrayList<ShopItemData>//LinkedList<ShopItem>
+    private lateinit var arrListShopLists: ArrayList<ShopListData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +46,16 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
 
     override fun onStart() {
         super.onStart()
+        arrListShopLists = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
         arrListShopItem = ShopItemsSharedPreference().loadShopItemSharedPref(requireActivity(), SHOP_LIST_Index!!)
-        //loadData()
         adapterShopItem.shopItemsList = LinkedList(arrListShopItem) //make a linkedLIst from add list and load in adapter
         adapterShopItem.setRecycleView(binding.rcView)      //send rcView object to Adapter
+        binding.tvNameShopListInShopItemFr.text = getShopListName()
     }
 
     override fun onStop() {
         super.onStop()
         ShopItemsSharedPreference().saveShopItemsSharedPref(requireActivity(), SHOP_LIST_Index!!, adapterShopItem.shopItemsList)
-        //saveArrays()
     }
 
     private fun initRcView() = with(binding){
@@ -103,6 +105,16 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             setView(dialogView)
             show()
         }
+    }
+
+    //get name shoplist for fragment shopitems
+    private fun getShopListName(): String? {
+        arrListShopLists.forEach{
+            if(it.indexShopList == SHOP_LIST_Index?.toInt()){
+                return it.itemName
+            }
+        }
+        return null
     }
 
     companion object {

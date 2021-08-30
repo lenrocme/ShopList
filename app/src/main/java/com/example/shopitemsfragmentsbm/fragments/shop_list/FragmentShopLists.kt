@@ -6,22 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopitemsfragmentsbm.MainActivity
 import com.example.shopitemsfragmentsbm.R
+import com.example.shopitemsfragmentsbm.TEMP_SHOP_LIST_NAME
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopListsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import java.util.*
 import kotlin.collections.ArrayList
 
-var LAST_SELECTED_SHOP_LIST: String? = null
+var INDEX_LAST_SELECTED_SHOP_LIST: Int = 0
 var SHOP_LIST_Index: String? = null
+var INDEX_ShopList_ARR: ArrayList<Int> = ArrayList()
+//var SET_SHOPLIST_NAME: String? = null
+
 class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopList {
     lateinit var binding: FragmentShopListsBinding
-    lateinit var arrListShopLists: ArrayList<ShopListData>
-    val adapterShopList = AdapterShopList(this)
-    var indexShopListarr: ArrayList<Int> = ArrayList()
+    private lateinit var arrListShopLists: ArrayList<ShopListData>
+    private val adapterShopList = AdapterShopList(this)
+    //var indexShopListarr: ArrayList<Int> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,15 +50,20 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
 
     override fun onStart() {
         super.onStart()
-        indexShopListarr = ShopListSharedPreference(requireActivity()).loadIndexShopListArr()
-        arrListShopLists =  ShopListSharedPreference(requireActivity()).loadShopListSharedPref() //SharedPreferenceGlobal().loadShopListSharedPref(requireActivity())
+        //INDEX_ShopList_ARR = ShopListSharedPreference(requireActivity()).loadIndexShopListArr() // start on mainactiv
+        arrListShopLists = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
         adapterShopList.shopList = LinkedList(arrListShopLists) //make a linkedLIst from add list and load in adapter
+        if(!TEMP_SHOP_LIST_NAME.equals(null)){
+            onCreateFirstShopList()
+            TEMP_SHOP_LIST_NAME = null
+        }
     }
 
     override fun onStop() {
         super.onStop()
         ShopListSharedPreference(requireActivity()).saveShopListSharedPref(adapterShopList.shopList)
-        ShopListSharedPreference(requireActivity()).saveIndexShopListArr(indexShopListarr)
+        ShopListSharedPreference(requireActivity()).saveIndexShopListArr(INDEX_ShopList_ARR)
+        ShopListSharedPreference(requireActivity()).saveIndexLastSelectedShopList(INDEX_LAST_SELECTED_SHOP_LIST)
         //SharedPreferenceGlobal().saveShopListSharedPref(requireActivity(), adapterShopList.shopList)
     }
 
@@ -64,29 +74,44 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         }
     }
 
+    //create new shoplist from dialog
+    private fun onCreateFirstShopList() = with(binding){
+        INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
+        SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
+        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST) //use same index to add it in created object
+        adapterShopList.addShopItem(shopItem)
+        //edTCreateNewShopList.text.clear()
+        //rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
+        loadFragmentShopItems()
+    }
+
     private fun onClickAddNewShopItem() = with(binding){
         if(edTCreateNewShopList.text.isNotEmpty()) {
-            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), addIndexShopList())
+            INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
+            SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
+            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST) //use same index to add it in created object
             adapterShopList.addShopItem(shopItem)
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
+            loadFragmentShopItems()
         }
     }
     // select a shoplist and laod data to new fragment with all items
     override fun onItemCLickGoToList(position: Int) {
-        val shopListIndex: String = adapterShopList.shopList[position].indexShopList.toString()
-        SHOP_LIST_Index = shopListIndex
+        val shopListIndex: Int = adapterShopList.shopList[position].indexShopList
+        SHOP_LIST_Index = shopListIndex.toString()
+        INDEX_LAST_SELECTED_SHOP_LIST = shopListIndex
         loadFragmentShopItems()
     }
 
     override fun onItemClickDelete(position: Int) {
-        adapterShopList.deleteItem(position)
         deleteIndexShopList(adapterShopList.shopList[position].indexShopList)
+        adapterShopList.deleteItem(position)
     }
 
     //get change fragment, load data with variable asa name of the list
     private fun loadFragmentShopItems(){
-        (activity as MainActivity).binding.bottomNavigationView.selectedItemId = R.id.shop_items
+        (activity as MainActivity).binding.bottomNavigationView.selectedItemId = R.id.shop_items    // change selected item on btm nav menu
     }
 
     //override fun onItemClickCreate(position: Int) {}
@@ -113,18 +138,20 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         }
     }
 
-    fun addIndexShopList():Int{
-        if(indexShopListarr.isNullOrEmpty())
-            indexShopListarr.add(1) // mean all elements a deleted, so we can write as new install , first element with index 1
+    private fun addIndexShopList():Int{
+        if(INDEX_ShopList_ARR.isNullOrEmpty())
+            INDEX_ShopList_ARR.add(1) // mean all elements a deleted, so we can write as new install , first element with index 1
         else{
-            indexShopListarr.add(indexShopListarr.last() + 1) //increase with 1 and add as next index
+            INDEX_ShopList_ARR.add(INDEX_ShopList_ARR.last() + 1) //increase with 1 and add as next index
         }
-        return indexShopListarr.last()
+        return INDEX_ShopList_ARR.last() //return new created index
     }
 
     // bc index is uniqe, we gonna delete first finded element
-    fun deleteIndexShopList(element: Int){
-        indexShopListarr.remove(element)
+    private fun deleteIndexShopList(element: Int){
+        SHOP_LIST_Index = null
+        Toast.makeText((activity as MainActivity).applicationContext, element.toString(), Toast.LENGTH_SHORT).show()
+        INDEX_ShopList_ARR.remove(element)
     }
 
     //singleton

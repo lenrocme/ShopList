@@ -48,5 +48,12 @@ class ShopListSharedPreference(activity: Activity) {
             arr
     }
 
+    fun saveIndexLastSelectedShopList(indexLastSelectedShopList: Int){
+        editor.putInt("indexLastSelectedShopList", indexLastSelectedShopList)
+        editor.apply()
+    }
 
+    fun loadIndexLastSelectedShopList(): Int{
+        return sharedPre.getInt("indexLastSelectedShopList", 0)
+    }
 }

@@ -39,12 +39,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="hello fragment shop list"
-            android:textAlignment="center" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcViewShopList"
             android:layout_width="match_parent"

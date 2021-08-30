@@ -24,6 +24,6 @@ class GlobalSharedPreferences(mainActivity: MainActivity) : MainActivity() {
     }
 
     fun loadLastBtmSelectedItemMenu(): Int {
-        return sharedPre.getInt("Last_selected_item_menu", 0)
+        return sharedPre.getInt("Last_selected_item_menu", -1)
     }
 }

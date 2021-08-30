@@ -11,6 +11,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvNameShopListInShopItemFr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            tools:text="shopListName" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
