@@ -14,6 +14,9 @@ import com.example.shopitemsfragmentsbm.R
 import com.example.shopitemsfragmentsbm.TEMP_SHOP_LIST_NAME
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopListsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -73,12 +76,18 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             rcViewShopList.adapter = adapterShopList
         }
     }
+    private fun getActualDate(): String{
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+            LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+        else
+            ""
+    }
 
     //create new shoplist from dialog
     private fun onCreateFirstShopList() = with(binding){
         INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
         SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
-        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST) //use same index to add it in created object
+        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST, getActualDate()) //use same index to add it in created object
         adapterShopList.addShopItem(shopItem)
         //edTCreateNewShopList.text.clear()
         //rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -89,7 +98,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         if(edTCreateNewShopList.text.isNotEmpty()) {
             INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
             SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
-            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST) //use same index to add it in created object
+            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST, getActualDate()) //use same index to add it in created object
             adapterShopList.addShopItem(shopItem)
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added

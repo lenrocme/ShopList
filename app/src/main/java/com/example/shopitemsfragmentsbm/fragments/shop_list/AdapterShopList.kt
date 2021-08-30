@@ -28,12 +28,13 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
                 iconDeleteShopList.setImageResource(IC_DELETE)
                 iconInfoShopList.setImageResource(R.drawable.ic_info_shop_list)
                 tvNameShopList.text = shopList.itemName
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+               /* if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     tvAddedDate.text = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-                }
+                }*/
+                tvAddedDate.text = shopList.dateCreated
                 //tvChangedDate.text = "changed
-                tvCountItemsShopList.text =
-                    ShopItemsSharedPreference().getCountNrItemsInOneShopList(iconCreateShopList.context as Activity, shopList.indexShopList)
+                tvCountItemsShopList.text = ShopItemsSharedPreference()
+                    .getCountNrItemsInOneShopList(iconCreateShopList.context as Activity, shopList.indexShopList)
             }
             init {
                 binding.iconDeleteShopList.setOnClickListener(this)

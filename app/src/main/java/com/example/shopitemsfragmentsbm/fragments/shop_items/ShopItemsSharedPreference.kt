@@ -41,7 +41,9 @@ class ShopItemsSharedPreference() {
             else
                 countItemsNotDone++
         }
-        return if(countItemsDone == countItemsNotDone + countItemsDone)
+        return if(countItemsDone + countItemsNotDone == 0)
+            "Empty"
+        else if(countItemsDone == countItemsNotDone + countItemsDone)
             "Done($countItemsDone)"
         else
             "$countItemsDone / " + (countItemsNotDone + countItemsDone)
