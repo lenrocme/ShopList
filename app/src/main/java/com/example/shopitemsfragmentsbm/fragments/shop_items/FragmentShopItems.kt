@@ -1,12 +1,14 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_items
 
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopitemsfragmentsbm.*
@@ -16,7 +18,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
     lateinit var binding: FragmentShopItemsBinding
@@ -30,22 +32,32 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-        ): View? {
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
             binding = FragmentShopItemsBinding.inflate(inflater)
             return binding.root//inflater.inflate(R.layout.fragment_shop_items, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.imgCreateNewItem.setOnClickListener{
             onClickAddNewShopItem()
         }
+        binding.tvAddShopItem.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+
+                if (event.getKeyCode() === KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and refocus on editText
+                        onClickAddNewShopItem()
+                        binding.tvAddShopItem.requestFocus()
+                    return true
+                }
+                return false
+            }
+        })
+
         initRcView()
     }
-
-
 
     override fun onStart() {
         super.onStart()
@@ -117,7 +129,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             editText.requestFocus()
             setPositiveButton("OK"){ dialog, which ->
                 adapterShopItem.editShopItemInDialog(position,
-                    editText.text.toString())
+                        editText.text.toString())
                 setTitle("")
             }
             setNegativeButton("Cancel"){ dialog, which->
