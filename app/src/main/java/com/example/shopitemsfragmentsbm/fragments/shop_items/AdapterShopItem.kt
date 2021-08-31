@@ -47,14 +47,14 @@ class AdapterShopItem(private val listener: OnItemClickListener): RecyclerView.A
                     listener.onItemClickDelete(position)
 
                 else if (v?.id == binding.iconCreate.id)    //same for createIcon
-                    listener.onItemClickCreate(position)
+                    listener.onItemClickEditShopItem(position)
             }
         }
     }
 
     interface OnItemClickListener{
         fun onItemClickDelete(position: Int)    // delete selectedItem from shop items
-        fun onItemClickCreate(position: Int)
+        fun onItemClickEditShopItem(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {

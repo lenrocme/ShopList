@@ -28,12 +28,9 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
                 iconDeleteShopList.setImageResource(IC_DELETE)
                 iconInfoShopList.setImageResource(R.drawable.ic_info_shop_list)
                 tvNameShopList.text = shopList.itemName
-               /* if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    tvAddedDate.text = LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-                }*/
                 tvAddedDate.text = shopList.dateCreated
-                //tvChangedDate.text = "changed
-                tvCountItemsShopList.text = ShopItemsSharedPreference()
+                tvChangedDate.text = shopList.dateChanged // gonna be changed, then item from this shop list will be added or deleted
+                tvCountItemsShopList.text = ShopItemsSharedPreference()// fin this shoplist in sharedpreference and count how many items are there
                     .getCountNrItemsInOneShopList(iconCreateShopList.context as Activity, shopList.indexShopList)
             }
             init {

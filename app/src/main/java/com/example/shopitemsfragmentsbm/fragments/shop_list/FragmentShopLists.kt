@@ -14,6 +14,7 @@ import com.example.shopitemsfragmentsbm.R
 import com.example.shopitemsfragmentsbm.TEMP_SHOP_LIST_NAME
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopListsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
+import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemsSharedPreference
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -87,7 +88,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     private fun onCreateFirstShopList() = with(binding){
         INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
         SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
-        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST, getActualDate()) //use same index to add it in created object
+        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), getActualDate()) //use same index to add it in created object
         adapterShopList.addShopItem(shopItem)
         //edTCreateNewShopList.text.clear()
         //rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -98,7 +99,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         if(edTCreateNewShopList.text.isNotEmpty()) {
             INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
             SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
-            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST, getActualDate()) //use same index to add it in created object
+            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), getActualDate()) //use same index to add it in created object
             adapterShopList.addShopItem(shopItem)
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -114,12 +115,14 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     }
 
     override fun onItemClickDelete(position: Int) {
+        ShopItemsSharedPreference().deleteItemsShopList(requireActivity(), adapterShopList.shopList[position].indexShopList)
+        SHOP_LIST_Index = null
         deleteIndexShopList(adapterShopList.shopList[position].indexShopList)
         adapterShopList.deleteItem(position)
     }
 
     //get change fragment, load data with variable asa name of the list
-    private fun loadFragmentShopItems(){
+    fun loadFragmentShopItems(){
         (activity as MainActivity).binding.bottomNavigationView.selectedItemId = R.id.shop_items    // change selected item on btm nav menu
     }
 
@@ -159,7 +162,6 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     // bc index is uniqe, we gonna delete first finded element
     private fun deleteIndexShopList(element: Int){
         SHOP_LIST_Index = null
-        Toast.makeText((activity as MainActivity).applicationContext, element.toString(), Toast.LENGTH_SHORT).show()
         INDEX_ShopList_ARR.remove(element)
     }
 

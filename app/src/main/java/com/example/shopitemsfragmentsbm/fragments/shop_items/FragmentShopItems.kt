@@ -3,7 +3,6 @@ package com.example.shopitemsfragmentsbm.fragments.shop_items
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -13,7 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopitemsfragmentsbm.*
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopItemsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_list.*
-import com.google.android.material.internal.NavigationMenu
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,6 +45,8 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         initRcView()
     }
 
+
+
     override fun onStart() {
         super.onStart()
         arrListShopLists = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
@@ -69,21 +72,38 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         }
     }
 
+    private fun getActualDate(): String{
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+            LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+        else
+            ""
+    }
+
+    private fun changeDateOnShopListWhenChanged(){
+        val arr = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
+        arr.forEach {
+            if(it.indexShopList == INDEX_LAST_SELECTED_SHOP_LIST)
+                it.dateChanged = getActualDate()
+        }
+    }
+
    private fun onClickAddNewShopItem() = with(binding){
         if(tvAddShopItem.text.isNotEmpty()) {
             val shopItem = ShopItemData(tvAddShopItem.text.toString(), false)
             adapterShopItem.addShopItem(shopItem)
             tvAddShopItem.text.clear()
             rcView.smoothScrollToPosition(0)   // scroll to first element, after new element is added
+            changeDateOnShopListWhenChanged()
         }
     }
 
     override fun onItemClickDelete(position: Int) {
+        changeDateOnShopListWhenChanged()
         adapterShopItem.deleteItem(position)
     }
 
     //override fun onItemClickCreate(position: Int) {}
-    override fun onItemClickCreate(position: Int) {
+    override fun onItemClickEditShopItem(position: Int) {
         val itemName = adapterShopItem.getShopItemName(position)
         val inflater = layoutInflater
         val dialogView = inflater.inflate(R.layout.edit_shop_item_dialog, null)
@@ -107,7 +127,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         }
     }
 
-    //get name shoplist for fragment shopitems
+    //get name shoplist for edit name fragment shopitems
     private fun getShopListName(): String? {
         arrListShopLists.forEach{
             if(it.indexShopList == SHOP_LIST_Index?.toInt()){
