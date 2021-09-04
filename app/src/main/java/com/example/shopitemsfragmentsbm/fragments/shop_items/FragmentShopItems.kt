@@ -1,13 +1,10 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_items
 
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +44,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         binding.tvAddShopItem.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 
-                if (event.getKeyCode() === KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and refocus on editText
+                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and refocus on editText
                         onClickAddNewShopItem()
                         binding.tvAddShopItem.requestFocus()
                     return true
@@ -91,12 +88,17 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             ""
     }
 
+    //if we add new item in the shoplist, date gonna be changed
     private fun changeDateOnShopListWhenChanged(){
-        val arr = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
-        arr.forEach {
-            if(it.indexShopList == INDEX_LAST_SELECTED_SHOP_LIST)
-                it.dateChanged = getActualDate()
+        var linkedlist: LinkedList<ShopListData> = LinkedList()
+        var arr = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
+        for (i in 0 until arr.size){
+            //Log.i("jora","arr size: ${arr.size}" ) // ? showing right size, but repeat only 2 times
+                if(arr[i].indexShopList == INDEX_LAST_SELECTED_SHOP_LIST)//find right list, change date
+                    arr[i].dateChanged = getActualDate()
+            linkedlist.add(arr[i])      // write every item in linked list
         }
+        ShopListSharedPreference(requireActivity()).saveShopListSharedPref(linkedlist)
     }
 
    private fun onClickAddNewShopItem() = with(binding){

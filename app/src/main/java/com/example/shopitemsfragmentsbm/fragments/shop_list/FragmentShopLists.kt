@@ -1,12 +1,12 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_list
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopitemsfragmentsbm.MainActivity
@@ -29,7 +29,7 @@ var INDEX_ShopList_ARR: ArrayList<Int> = ArrayList()
 class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopList {
     lateinit var binding: FragmentShopListsBinding
     private lateinit var arrListShopLists: ArrayList<ShopListData>
-    private val adapterShopList = AdapterShopList(this)
+    var adapterShopList = AdapterShopList(this)
     //var indexShopListarr: ArrayList<Int> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,11 +84,30 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             ""
     }
 
+    //if we add new item in the shoplist, change the date
+    fun changeDateOnShopListWhenChanged(){
+        Log.i("jora", INDEX_LAST_SELECTED_SHOP_LIST.toString())
+        //val linkedlist: LinkedList<ShopListData>? = null
+        //val arr = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
+        Log.i("jora", adapterShopList.shopList.size.toString())
+        /*adapterShopList.shopList.forEach {       //go through list, find the list with needed index and change date
+            if(it.indexShopList == INDEX_LAST_SELECTED_SHOP_LIST) {
+
+                it.dateChanged = getActualDate()
+            }
+            //Log.i("jora", it.indexShopList.toString())
+            //linkedlist?.add(it)
+        }*/
+        /*if (linkedlist != null) {
+            ShopListSharedPreference(requireActivity()).saveShopListSharedPref(linkedlist)
+        }*/
+    }
+
     //create new shoplist from dialog
     private fun onCreateFirstShopList() = with(binding){
         INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
         SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
-        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), getActualDate()) //use same index to add it in created object
+        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), "getActualDate()") //use same index to add it in created object
         adapterShopList.addShopItem(shopItem)
         //edTCreateNewShopList.text.clear()
         //rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -99,7 +118,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         if(edTCreateNewShopList.text.isNotEmpty()) {
             INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
             SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
-            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), getActualDate()) //use same index to add it in created object
+            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), "getActualDate()") //use same index to add it in created object
             adapterShopList.addShopItem(shopItem)
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -122,7 +141,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     }
 
     //get change fragment, load data with variable asa name of the list
-    fun loadFragmentShopItems(){
+    private fun loadFragmentShopItems(){
         (activity as MainActivity).binding.bottomNavigationView.selectedItemId = R.id.shop_items    // change selected item on btm nav menu
     }
 

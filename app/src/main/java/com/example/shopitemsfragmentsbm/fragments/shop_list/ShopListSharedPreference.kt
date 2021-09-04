@@ -3,7 +3,6 @@ package com.example.shopitemsfragmentsbm.fragments.shop_list
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*

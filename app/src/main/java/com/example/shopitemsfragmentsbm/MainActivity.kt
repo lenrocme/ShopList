@@ -69,9 +69,7 @@ open class MainActivity : AppCompatActivity() {
         INDEX_ShopList_ARR = ShopListSharedPreference(this).loadIndexShopListArr()
         INDEX_LAST_SELECTED_SHOP_LIST = ShopListSharedPreference(this).loadIndexLastSelectedShopList()
         glbSharedPref.loadPreferedTheme() // set  saved prefered theme
-        //glbSharedPref.loadLastBtmSelectedItemMenu()
         SetThemeMode().setThemeMode(binding.bottomNavigationView)
-        //binding.bottomNavigationView.selectedItemId = glbSharedPref.loadLastBtmSelectedItemMenu()
         val idBtmMenuItem: Int = glbSharedPref.loadLastBtmSelectedItemMenu()
         if(idBtmMenuItem == - 1)
             openFragment(R.id.place_holder, FragmentShopLists.newInstance())
@@ -79,7 +77,6 @@ open class MainActivity : AppCompatActivity() {
             if(idBtmMenuItem == R.id.shop_items)
                 startFromCache()
             else{
-                Log.i("jora", "1")
                 binding.bottomNavigationView.selectedItemId = idBtmMenuItem
             }
         }
@@ -98,7 +95,6 @@ open class MainActivity : AppCompatActivity() {
             }
             else{
                 if(INDEX_ShopList_ARR.contains(INDEX_LAST_SELECTED_SHOP_LIST)) {    // index has been found, use it, open fragment with ShopItems from ShopList with this index
-                    Log.i("jora", "1")
                     SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
                     indexLastSelectedBtmMenuItem = R.id.shop_items
                     binding.bottomNavigationView.selectedItemId = R.id.shop_items
@@ -109,7 +105,6 @@ open class MainActivity : AppCompatActivity() {
                         INDEX_LAST_SELECTED_SHOP_LIST = INDEX_ShopList_ARR.last()       // because ShopList with that index was deleted, we ShopList with position 0 in recycleView
                         SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()      // found from last element as index form saved array
                         indexLastSelectedBtmMenuItem = R.id.shop_items
-                        Log.i("jora", "2")
                         //binding.bottomNavigationView.selectedItemId = R.id.shop_items
                         openFragment(R.id.place_holder, FragmentShopItems.newInstance())
                     }
@@ -120,7 +115,6 @@ open class MainActivity : AppCompatActivity() {
             }
         }
         else{
-            Log.i("jora", "3")
             SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
             indexLastSelectedBtmMenuItem = R.id.shop_items
             //binding.bottomNavigationView.selectedItemId = R.id.shop_items
