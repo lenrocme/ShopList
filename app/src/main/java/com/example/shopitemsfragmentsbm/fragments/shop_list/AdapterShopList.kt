@@ -1,19 +1,17 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_list
 
 import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopitemsfragmentsbm.MainActivity
 import com.example.shopitemsfragmentsbm.R
 import com.example.shopitemsfragmentsbm.databinding.ShopListRcviewItemBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_CREATE
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_DELETE
+import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_DESCRIPTION
 import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemsSharedPreference
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 
 class AdapterShopList(private val listener: OnItemClickListenerShopList): RecyclerView.Adapter<AdapterShopList.ItemHolder>() {
@@ -26,7 +24,7 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
             fun bind(shopList: ShopListData) = with(binding){
                 iconCreateShopList.setImageResource(IC_CREATE)
                 iconDeleteShopList.setImageResource(IC_DELETE)
-                iconInfoShopList.setImageResource(R.drawable.ic_info_shop_list)
+                iconDescriptionShopList.setImageResource(IC_DESCRIPTION)
                 tvNameShopList.text = shopList.itemName
                 tvAddedDate.text = shopList.dateCreated
                 tvChangedDate.text = shopList.dateChanged // gonna be changed, then item from this shop list will be added or deleted
@@ -37,20 +35,19 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
                 binding.iconDeleteShopList.setOnClickListener(this)
                 binding.iconCreateShopList.setOnClickListener(this)
                 binding.tvNameShopList.setOnClickListener(this)
+                binding.iconDescriptionShopList.setOnClickListener(this)
             }
 
-            override fun onClick(v: View?) {
+            override fun onClick(v: View?) = with(binding) {
                 val position: Int = adapterPosition
                 if(position != RecyclerView.NO_POSITION) {
 
-                    if (v?.id == binding.iconDeleteShopList.id)     //in case if id is deleteIcon id
-                        listener.onItemClickDelete(position)
-
-                    else if (v?.id == binding.iconCreateShopList.id)    //same for createIcon
-                        listener.onItemClickEdit(position)
-
-                    else if ( v?.id == binding.tvNameShopList.id)
-                        listener.onItemCLickGoToList(position)
+                    when(v?.id) {
+                        iconDescriptionShopList.id -> listener.onItemClickDescription(position)
+                        iconDeleteShopList.id -> listener.onItemClickDelete(position)
+                        iconCreateShopList.id -> listener.onItemClickEdit(position) // edit shoplist name
+                        tvNameShopList.id -> listener.onItemCLickGoToList(position)
+                    }
                 }
             }
         }
@@ -59,6 +56,7 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
             fun onItemClickDelete(position: Int)    // delete selectedItem from shop items
             fun onItemClickEdit(position: Int)
             fun onItemCLickGoToList(position: Int)
+            fun onItemClickDescription(position: Int)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {

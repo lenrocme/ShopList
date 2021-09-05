@@ -6,5 +6,6 @@ data class ShopItemData(var itemName: String, var stateItem: Boolean = false)//f
 
     const val IC_CREATE = R.drawable.ic_create
     const val IC_DELETE = R.drawable.ic_delete
+    const val IC_DESCRIPTION = R.drawable.ic_description
 
 

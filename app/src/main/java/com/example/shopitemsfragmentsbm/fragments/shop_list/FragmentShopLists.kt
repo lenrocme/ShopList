@@ -84,30 +84,11 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             ""
     }
 
-    //if we add new item in the shoplist, change the date
-    fun changeDateOnShopListWhenChanged(){
-        Log.i("jora", INDEX_LAST_SELECTED_SHOP_LIST.toString())
-        //val linkedlist: LinkedList<ShopListData>? = null
-        //val arr = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
-        Log.i("jora", adapterShopList.shopList.size.toString())
-        /*adapterShopList.shopList.forEach {       //go through list, find the list with needed index and change date
-            if(it.indexShopList == INDEX_LAST_SELECTED_SHOP_LIST) {
-
-                it.dateChanged = getActualDate()
-            }
-            //Log.i("jora", it.indexShopList.toString())
-            //linkedlist?.add(it)
-        }*/
-        /*if (linkedlist != null) {
-            ShopListSharedPreference(requireActivity()).saveShopListSharedPref(linkedlist)
-        }*/
-    }
-
     //create new shoplist from dialog
     private fun onCreateFirstShopList() = with(binding){
         INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
         SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
-        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), "getActualDate()") //use same index to add it in created object
+        val shopItem = ShopListData(TEMP_SHOP_LIST_NAME!!, INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), getActualDate(), "No description") //use same index to add it in created object
         adapterShopList.addShopItem(shopItem)
         //edTCreateNewShopList.text.clear()
         //rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -118,7 +99,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         if(edTCreateNewShopList.text.isNotEmpty()) {
             INDEX_LAST_SELECTED_SHOP_LIST = addIndexShopList() //create new unique index for new ShopList
             SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
-            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), "getActualDate()") //use same index to add it in created object
+            val shopItem = ShopListData(edTCreateNewShopList.text.toString(), INDEX_LAST_SELECTED_SHOP_LIST, getActualDate(), getActualDate(), "") //use same index to add it in created object
             adapterShopList.addShopItem(shopItem)
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
@@ -131,6 +112,27 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         SHOP_LIST_Index = shopListIndex.toString()
         INDEX_LAST_SELECTED_SHOP_LIST = shopListIndex
         loadFragmentShopItems()
+    }
+
+    override fun onItemClickDescription(position: Int) {
+        val descriptionText = adapterShopList.shopList[position].descriptionShopList
+        val shopListName = adapterShopList.shopList[position].itemName
+        val dialogView = layoutInflater.inflate(R.layout.description_shop_list, null)
+        val builder = AlertDialog.Builder(requireContext())
+        val editText = dialogView.findViewById<EditText>(R.id.edTmlDescription)
+        editText.setText(descriptionText)
+
+        with(builder){
+            setTitle("Description for: $shopListName")
+            editText.requestFocus()
+            setPositiveButton("OK"){ dialog, which ->
+                adapterShopList.shopList[position].descriptionShopList = editText.text.toString()       // save redacted description text in the shoplist object
+            }
+            setNegativeButton("Cancel"){ dialog, which->
+            }
+            setView(dialogView)
+            show()
+        }
     }
 
     override fun onItemClickDelete(position: Int) {
