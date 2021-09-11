@@ -1,14 +1,11 @@
 package com.example.shopitemsfragmentsbm
 
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.text.method.TextKeyListener.clear
-import android.util.Log
+import android.os.Handler
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.shopitemsfragmentsbm.databinding.ActivityMainBinding
@@ -16,9 +13,6 @@ import com.example.shopitemsfragmentsbm.fragments.info_guide.FragmentInfoGuide
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemData
 import com.example.shopitemsfragmentsbm.fragments.shop_list.*
-import java.util.logging.Logger
-import java.util.prefs.Preferences
-import kotlin.collections.ArrayList
 
 var TEMP_SHOP_LIST_NAME: String? = null
 
@@ -28,6 +22,7 @@ open class MainActivity : AppCompatActivity() {
     private lateinit var glbSharedPref: GlobalSharedPreferences
     private var indexLastSelectedBtmMenuItem: Int = R.id.shop_list
     private var selectedShopList: String? = null
+    var isSecond: Boolean = false
     //var selectorTheme: Int = 0 // 0 for default, 1 for Light Theme, -1 for Dark Theme
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +62,7 @@ open class MainActivity : AppCompatActivity() {
                 R.anim.slide_out
             )
             replace(idHolder, fragment)
-            addToBackStack(null)
+            //addToBackStack(null)
         }
     }
 
@@ -154,5 +149,16 @@ open class MainActivity : AppCompatActivity() {
             setCancelable(false)
             show()
         }
+    }
+
+    //double tap back button to exit
+    override fun onBackPressed() {
+        if (isSecond) {
+            android.os.Process.killProcess(android.os.Process.myPid())
+        }
+        isSecond = true
+        Handler().postDelayed(Runnable { isSecond = false }, 1500)
+        Toast.makeText(baseContext, "Press once again to exit!",
+            Toast.LENGTH_SHORT).show()
     }
 }
