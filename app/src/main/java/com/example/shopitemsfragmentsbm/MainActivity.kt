@@ -15,7 +15,7 @@ import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemData
 import com.example.shopitemsfragmentsbm.fragments.shop_list.*
 
 var TEMP_SHOP_LIST_NAME: String? = null
-var LAST_SELECTED_FRAGMENTS: ArrayList<Int> = arrayListOf(0,0)
+var LAST_SELECTED_FRAGMENTS: ArrayList<Int> = arrayListOf(5,5)
 
 open class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding

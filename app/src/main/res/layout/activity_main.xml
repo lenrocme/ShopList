@@ -31,18 +31,22 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/btm_nav_backgorund"
         app:backgroundTint="@color/rose_main_color"
         app:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="21dp"
         app:menu="@menu/btm_menu" />
 
     <FrameLayout
         android:id="@+id/place_holder"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
