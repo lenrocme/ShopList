@@ -13,12 +13,22 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvTopShopItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0000E5FF"
+            android:elevation="11dp"
+            android:paddingLeft="15dp"
+            android:text="Products List"
+            android:textColor="#FFFFFF"
+            android:textSize="26sp" />
+
+        <TextView
             android:id="@+id/tvNameShopListInShopItemFr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="18sp"
-            tools:text="shopListName" />
+            android:paddingRight="5dp"
+            android:textAlignment="textEnd" />
 
         <LinearLayout
             android:id="@+id/linearLayout"

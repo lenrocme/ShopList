@@ -1,5 +1,6 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_items
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -63,7 +64,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         arrListShopItem = ShopItemsSharedPreference().loadShopItemSharedPref(requireActivity(), SHOP_LIST_Index!!)
         adapterShopItem.shopItemsList = LinkedList(arrListShopItem) //make a linkedLIst from add list and load in adapter
         adapterShopItem.setRecycleView(binding.rcView)      //send rcView object to Adapter
-        binding.tvNameShopListInShopItemFr.text = getShopListName()
+        binding.tvNameShopListInShopItemFr.text = "#${getShopListName()}"
     }
 
     override fun onStop() {

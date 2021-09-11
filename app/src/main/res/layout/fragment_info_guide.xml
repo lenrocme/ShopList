@@ -7,7 +7,12 @@
     tools:context=".fragments.info_guide.FragmentInfoGuide">
 
     <TextView
+        android:id="@+id/tvTopInfoFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="hello fragment info guide" />
+        android:layout_height="wrap_content"
+        android:background="#0000E5FF"
+        android:paddingLeft="15dp"
+        android:text="Info guide"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp" />
 </FrameLayout>

@@ -13,7 +13,7 @@
         android:layout_marginRight="7dp"
         android:layout_marginBottom="7dp"
         android:foregroundGravity="center"
-        app:cardBackgroundColor="#80FFFFFF"
+        app:cardBackgroundColor="#99FFFFFF"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
 
@@ -33,7 +33,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="-7dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -41,6 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:paddingLeft="5dp"
                     android:text="Added: 20.08.2021" />
 
                 <LinearLayout
@@ -51,23 +53,26 @@
 
                     <ImageView
                         android:id="@+id/iconCreateShopList"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingTop="3dp"
                         tools:srcCompat="@drawable/ic_create" />
 
                     <ImageView
                         android:id="@+id/iconDescriptionShopList"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingTop="3dp"
                         app:srcCompat="@drawable/ic_description" />
 
                     <ImageView
                         android:id="@+id/iconDeleteShopList"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:paddingTop="3dp"
                         tools:srcCompat="@drawable/ic_delete" />
                 </LinearLayout>
 
@@ -78,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingLeft="3dp"
                 android:text="Geburtstag-List"
                 android:textSize="32sp" />
 
@@ -91,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:paddingLeft="5dp"
                     android:text="Changed: 25.08.2021" />
 
                 <TextView
@@ -98,6 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:paddingRight="5dp"
                     android:text="#17"
                     android:textAlignment="textEnd" />
             </LinearLayout>
