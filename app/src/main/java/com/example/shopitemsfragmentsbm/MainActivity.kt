@@ -15,6 +15,7 @@ import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemData
 import com.example.shopitemsfragmentsbm.fragments.shop_list.*
 
 var TEMP_SHOP_LIST_NAME: String? = null
+var LAST_SELECTED_FRAGMENTS: ArrayList<Int> = arrayListOf(0,0)
 
 open class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -33,15 +34,18 @@ open class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.shop_list -> {
+                    LAST_SELECTED_FRAGMENTS.add(-1)
                     openFragment(R.id.place_holder, FragmentShopLists.newInstance())
                     indexLastSelectedBtmMenuItem = R.id.shop_list
                 }
                 R.id.shop_items -> {
+                    LAST_SELECTED_FRAGMENTS.add(0)
                     startFromCache()
                     //openFragment(R.id.place_holder, FragmentShopItems.newInstance())
                     //indexLastSelectedBtmMenuItem = R.id.shop_items
                 }
                 R.id.info_guide -> {
+                    LAST_SELECTED_FRAGMENTS.add(1)
                     openFragment(R.id.place_holder, FragmentInfoGuide.newInstance())
                     indexLastSelectedBtmMenuItem = R.id.info_guide
                 }
@@ -54,16 +58,31 @@ open class MainActivity : AppCompatActivity() {
     }
 
     private fun openFragment(idHolder: Int, fragment: Fragment){
-        supportFragmentManager.commit {
-            setCustomAnimations(
-                R.anim.slide_in,
-                R.anim.fade_out,
-                R.anim.fade_in,
-                R.anim.slide_out
-            )
-            replace(idHolder, fragment)
-            //addToBackStack(null)
+        val setAnimationDirection = when{
+            LAST_SELECTED_FRAGMENTS.isEmpty() -> 0
+            LAST_SELECTED_FRAGMENTS.last() < LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)]  -> R.anim.slide_in_from_left
+            LAST_SELECTED_FRAGMENTS.last() > LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)]  -> R.anim.slide_in_from_right
+            LAST_SELECTED_FRAGMENTS.last() == LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)] -> 0
+            else -> 0
         }
+        if(setAnimationDirection != 0) {
+            supportFragmentManager.commit {
+                setCustomAnimations(
+                    setAnimationDirection,  //enter
+                    R.anim.fade_out,            //exit
+                    R.anim.fade_in,             //popEnter
+                    R.anim.slide_out            //popExit
+                )
+                replace(idHolder, fragment)
+                //addToBackStack(null)
+            }
+        }
+        else{
+            supportFragmentManager.beginTransaction()
+                .replace(idHolder, fragment)
+                .commit()
+        }
+
     }
 
     override fun onStart() {

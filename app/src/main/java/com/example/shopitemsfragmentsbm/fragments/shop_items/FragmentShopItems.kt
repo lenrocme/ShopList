@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionInflater
 import com.example.shopitemsfragmentsbm.*
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopItemsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_list.*

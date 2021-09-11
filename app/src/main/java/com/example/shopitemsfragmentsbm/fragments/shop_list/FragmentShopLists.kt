@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.shopitemsfragmentsbm.MainActivity
-import com.example.shopitemsfragmentsbm.R
-import com.example.shopitemsfragmentsbm.TEMP_SHOP_LIST_NAME
+import androidx.transition.TransitionInflater
+import com.example.shopitemsfragmentsbm.*
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopListsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemsSharedPreference
@@ -34,7 +33,11 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        //exitTransition = inflater.inflateTransition(R.transition.slide_right)
     }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
