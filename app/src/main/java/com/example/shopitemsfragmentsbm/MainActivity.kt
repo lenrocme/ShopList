@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.example.shopitemsfragmentsbm.databinding.ActivityMainBinding
 import com.example.shopitemsfragmentsbm.fragments.info_guide.FragmentInfoGuide
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
@@ -58,10 +59,16 @@ open class MainActivity : AppCompatActivity() {
     }
 
     private fun openFragment(idHolder: Int, fragment: Fragment){
-        supportFragmentManager
-            .beginTransaction()
-            .replace(idHolder, fragment)
-            .commit()
+        supportFragmentManager.commit {
+            setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
+            replace(idHolder, fragment)
+            addToBackStack(null)
+        }
     }
 
     override fun onStart() {

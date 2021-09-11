@@ -13,12 +13,15 @@
         android:layout_marginRight="7dp"
         android:layout_marginBottom="7dp"
         android:foregroundGravity="center"
+        app:cardBackgroundColor="#80FFFFFF"
         app:cardCornerRadius="5dp"
+        app:cardElevation="0dp"
+
+
+        app:cardMaxElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
