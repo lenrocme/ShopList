@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -50,10 +50,24 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcViewShopList"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:clipToPadding="false"
+            android:focusableInTouchMode="false"
+            android:isScrollContainer="true"
+            android:keepScreenOn="false"
+            android:paddingBottom="-85dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcViewShopList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="85dp" />
+        </ScrollView>
+
     </LinearLayout>
 
 </FrameLayout>

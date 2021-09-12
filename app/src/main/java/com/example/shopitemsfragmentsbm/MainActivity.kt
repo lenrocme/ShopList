@@ -1,13 +1,17 @@
 package com.example.shopitemsfragmentsbm
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.shopitemsfragmentsbm.databinding.ActivityMainBinding
 import com.example.shopitemsfragmentsbm.fragments.info_guide.FragmentInfoGuide
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
@@ -68,7 +72,7 @@ open class MainActivity : AppCompatActivity() {
         if(setAnimationDirection != 0) {
             supportFragmentManager.commit {
                 setCustomAnimations(
-                    setAnimationDirection,  //enter
+                    setAnimationDirection,      //enter
                     R.anim.fade_out,            //exit
                     R.anim.fade_in,             //popEnter
                     R.anim.slide_out            //popExit

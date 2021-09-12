@@ -12,7 +12,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="3dp"
         android:foregroundGravity="center"
-        app:cardBackgroundColor="#80FFFFFF"
+        app:cardBackgroundColor="#BFFFFFFF"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
@@ -30,24 +30,24 @@
 
             <ImageView
                 android:id="@+id/iconCreate"
-                android:layout_width="30dp"
+                android:layout_width="45dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 app:srcCompat="@drawable/ic_create" />
 
             <TextView
                 android:id="@+id/tvItemName"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="TextView"
                 android:textSize="24sp" />
 
             <ImageView
                 android:id="@+id/iconDeleteItem"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
+                android:layout_width="45dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="5dp"
                 app:srcCompat="@drawable/ic_delete" />
         </LinearLayout>
 

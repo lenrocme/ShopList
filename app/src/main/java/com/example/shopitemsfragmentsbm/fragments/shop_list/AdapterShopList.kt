@@ -1,7 +1,6 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_list
 
 import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_DELETE
 import com.example.shopitemsfragmentsbm.fragments.shop_items.IC_DESCRIPTION
 import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemsSharedPreference
 import java.util.*
+
 
 class AdapterShopList(private val listener: OnItemClickListenerShopList): RecyclerView.Adapter<AdapterShopList.ItemHolder>() {
         //private lateinit var rcView: RecyclerView
@@ -29,7 +29,10 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
                 tvAddedDate.text = shopList.dateCreated
                 tvChangedDate.text = shopList.dateChanged // gonna be changed, then item from this shop list will be added or deleted
                 tvCountItemsShopList.text = ShopItemsSharedPreference()// fin this shoplist in sharedpreference and count how many items are there
-                    .getCountNrItemsInOneShopList(iconCreateShopList.context as Activity, shopList.indexShopList)
+                    .getCountNrItemsInOneShopList(
+                        iconCreateShopList.context as Activity,
+                        shopList.indexShopList
+                    )
             }
             init {
                 binding.iconDeleteShopList.setOnClickListener(this)
@@ -60,7 +63,11 @@ class AdapterShopList(private val listener: OnItemClickListenerShopList): Recycl
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.shop_list_rcview_item, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(
+                R.layout.shop_list_rcview_item,
+                parent,
+                false
+            )
             return ItemHolder(view)
         }
 
