@@ -1,21 +1,21 @@
 package com.example.shopitemsfragmentsbm
 
+import android.app.Activity
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.shopitemsfragmentsbm.databinding.ActivityMainBinding
 import com.example.shopitemsfragmentsbm.fragments.info_guide.FragmentInfoGuide
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
-import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemData
 import com.example.shopitemsfragmentsbm.fragments.shop_list.*
 
 var TEMP_SHOP_LIST_NAME: String? = null
@@ -23,17 +23,16 @@ var LAST_SELECTED_FRAGMENTS: ArrayList<Int> = arrayListOf(5,5)
 
 open class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    private lateinit var temporArr: ArrayList<ShopItemData>
     private lateinit var glbSharedPref: GlobalSharedPreferences
     private var indexLastSelectedBtmMenuItem: Int = R.id.shop_list
     private var selectedShopList: String? = null
     var isSecond: Boolean = false
-    //var selectorTheme: Int = 0 // 0 for default, 1 for Light Theme, -1 for Dark Theme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //transparentStatusAndNavigation()
        //setDarkLightDefaultThemeMode()
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
@@ -41,10 +40,12 @@ open class MainActivity : AppCompatActivity() {
                     LAST_SELECTED_FRAGMENTS.add(-1)
                     openFragment(R.id.place_holder, FragmentShopLists.newInstance())
                     indexLastSelectedBtmMenuItem = R.id.shop_list
+                    binding.tvTopMainAC.text = "Shopping lists"
                 }
                 R.id.shop_items -> {
                     LAST_SELECTED_FRAGMENTS.add(0)
                     startFromCache()
+                    binding.tvTopMainAC.text = "Products list"
                     //openFragment(R.id.place_holder, FragmentShopItems.newInstance())
                     //indexLastSelectedBtmMenuItem = R.id.shop_items
                 }
@@ -52,6 +53,7 @@ open class MainActivity : AppCompatActivity() {
                     LAST_SELECTED_FRAGMENTS.add(1)
                     openFragment(R.id.place_holder, FragmentInfoGuide.newInstance())
                     indexLastSelectedBtmMenuItem = R.id.info_guide
+                    binding.tvTopMainAC.text = "Info guide"
                 }
                 R.id.dark_light_mode -> {
                     SetThemeMode().changeThemeMode(binding.bottomNavigationView)
@@ -86,7 +88,6 @@ open class MainActivity : AppCompatActivity() {
                 .replace(idHolder, fragment)
                 .commit()
         }
-
     }
 
     override fun onStart() {
@@ -184,4 +185,41 @@ open class MainActivity : AppCompatActivity() {
         Toast.makeText(baseContext, "Press once again to exit!",
             Toast.LENGTH_SHORT).show()
     }
+
+    /*fun Activity.transparentStatusAndNavigation(
+        systemUiScrim: Int = Color.parseColor("#40000000") // 25% black
+    ) {
+        var systemUiVisibility = 0
+        // Use a dark scrim by default since light status is API 23+
+
+        //  Use a dark scrim by default since light nav bar is API 27+
+        var navigationBarColor = systemUiScrim
+        val winParams = window.attributes
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            systemUiVisibility = systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            navigationBarColor = Color.TRANSPARENT
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            systemUiVisibility = systemUiVisibility or
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            window.decorView.systemUiVisibility = systemUiVisibility
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            winParams.flags = winParams.flags or
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            winParams.flags = winParams.flags and
+                    (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or
+                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION).inv()
+            window.navigationBarColor = navigationBarColor
+        }
+
+        window.attributes = winParams
+    }*/
 }

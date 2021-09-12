@@ -4,24 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#34FFFFFF"
+    android:background="#00FFFFFF"
     tools:context=".fragments.shop_items.FragmentShopItems">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvTopShopItems"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#0000E5FF"
-            android:elevation="11dp"
-            android:paddingLeft="15dp"
-            android:text="Products List"
-            android:textColor="#FFFFFF"
-            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/tvNameShopListInShopItemFr"

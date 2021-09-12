@@ -9,14 +9,14 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardVshopList"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
         android:layout_marginLeft="9dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="9dp"
         android:layout_marginBottom="10dp"
         android:foregroundGravity="center"
-        app:cardBackgroundColor="#BEFFFFFF"
-        app:cardCornerRadius="5dp"
+        app:cardBackgroundColor="#34FFFFFF"
+        app:cardCornerRadius="20dp"
 
 
         app:cardElevation="0dp"
@@ -36,7 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="28dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="-7dp"
                 android:orientation="horizontal">
 
@@ -45,7 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="7dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="4dp"
                     android:text="Added: 20.08.2021" />
 
                 <LinearLayout
@@ -55,21 +56,21 @@
 
                     <ImageView
                         android:id="@+id/iconCreateShopList"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:paddingTop="3dp"
                         tools:srcCompat="@drawable/ic_create" />
 
                     <ImageView
                         android:id="@+id/iconDescriptionShopList"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:paddingTop="3dp"
                         app:srcCompat="@drawable/ic_description" />
 
                     <ImageView
                         android:id="@+id/iconDeleteShopList"
-                        android:layout_width="50dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:paddingTop="3dp"
                         tools:srcCompat="@drawable/ic_delete" />
@@ -82,14 +83,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="3dp"
+                android:paddingLeft="15dp"
                 android:text="Geburtstag-List"
-                android:textSize="32sp" />
+                android:textSize="28sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
+                android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -97,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="7dp"
+                    android:paddingLeft="16dp"
                     android:text="Changed: 25.08.2021" />
 
                 <TextView
@@ -105,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="7dp"
+                    android:paddingRight="14dp"
                     android:text="#17"
                     android:textAlignment="textEnd" />
             </LinearLayout>
