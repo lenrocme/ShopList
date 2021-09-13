@@ -9,6 +9,68 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="245dp"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/tvAddShopItem"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="-15dp"
+            android:background="@drawable/bg_edittext_add_items"
+            android:elevation="1dp"
+            android:ems="10"
+            android:hint="New product"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imgCreateNewItem"
+            android:layout_width="80dp"
+            android:layout_height="57dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="-54dp"
+            android:background="@drawable/bg_add_button"
+            android:elevation="2dp"
+            android:paddingLeft="9dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="-85dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingBottom="115dp"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:touchscreenBlocksFocus="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="0.0" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -18,60 +80,6 @@
             android:layout_height="wrap_content"
             android:paddingRight="5dp"
             android:textAlignment="textEnd" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <EditText
-                android:id="@+id/tvAddShopItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:hint="New shopitem"
-                android:inputType="textPersonName" />
-            <!--android:imeOptions="actionDone"-->
-
-            <ImageView
-                android:id="@+id/imgCreateNewItem"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
-        </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="-85dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:paddingBottom="85dp"
-                android:scrollbarAlwaysDrawHorizontalTrack="false"
-                android:touchscreenBlocksFocus="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="0.0" />
-        </ScrollView>
 
     </LinearLayout>
 

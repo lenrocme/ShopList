@@ -12,4 +12,5 @@
     <color name="gri_bt_nav_icons">#636262</color>
     <color name="rose_main_color">#FF19FB</color>
     <color name="main_background_light">#41C835FD</color>
+    <color name="item_bg_color">#AEF85999</color>
 </resources>

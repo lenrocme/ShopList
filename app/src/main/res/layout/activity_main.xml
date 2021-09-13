@@ -5,100 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background_light"
-    android:fitsSystemWindows="true"
     android:clipToPadding="false"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="200dp"
-        android:elevation="1dp"
-        app:cardBackgroundColor="@color/rose_bt_nav"
-        app:cardCornerRadius="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTopMainAC" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:elevation="1dp"
-        android:rotation="-30"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTopMainAC"
-        app:srcCompat="@drawable/bg_shop_card" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="36dp"
-        android:elevation="1dp"
-        android:rotation="-30"
-        app:layout_constraintBottom_toTopOf="@+id/cardView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        app:srcCompat="@drawable/bg_shop_card" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="32dp"
-        android:elevation="1dp"
-        android:rotation="6"
-        android:rotationX="-12"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2"
-        app:srcCompat="@drawable/bg_shop_card" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="32dp"
-        android:elevation="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTopMainAC"
-        app:srcCompat="@drawable/bg_gift" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:elevation="1dp"
-        android:rotation="-20"
-        app:layout_constraintEnd_toEndOf="@+id/place_holder"
-        app:layout_constraintStart_toStartOf="@+id/place_holder"
-        app:layout_constraintTop_toBottomOf="@+id/tvTopMainAC"
-        app:srcCompat="@drawable/bg_shopify" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="450dp"
-        android:layout_marginEnd="200dp"
-        android:elevation="1dp"
-        app:cardBackgroundColor="@color/rose_bt_nav"
-        app:cardCornerRadius="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTopMainAC">
-
-    </androidx.cardview.widget.CardView>
+    <!-- show layout, that u use all window(also navbar space) -->
 
     <TextView
         android:id="@+id/tvTopMainAC"
@@ -116,8 +26,8 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/btm_nav_backgorund"
         android:foregroundGravity="center_horizontal"

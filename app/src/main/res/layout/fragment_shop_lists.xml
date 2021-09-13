@@ -12,51 +12,71 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="245dp"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edTCreateNewShopList"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="-15dp"
+            android:background="@drawable/bg_edittext_add_items"
+            android:elevation="1dp"
+            android:ems="10"
+            android:hint="New shopping list"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imgCreateNewShopList"
+            android:layout_width="80dp"
+            android:layout_height="57dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="-54dp"
+            android:background="@drawable/bg_add_button"
+            android:elevation="2dp"
+            android:paddingLeft="9dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:clipToPadding="false"
+        android:focusableInTouchMode="false"
+        android:isScrollContainer="true"
+        android:keepScreenOn="false"
+        android:paddingBottom="-85dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcViewShopList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="120dp" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edTCreateNewShopList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:ems="10"
-                android:hint="Create new ShopList"
-                android:inputType="textPersonName" />
-
-            <ImageView
-                android:id="@+id/imgCreateNewShopList"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp">
 
         </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="false"
-            android:clipToPadding="false"
-            android:focusableInTouchMode="false"
-            android:isScrollContainer="true"
-            android:keepScreenOn="false"
-            android:paddingBottom="-85dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcViewShopList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingBottom="85dp" />
-        </ScrollView>
 
     </LinearLayout>
 
