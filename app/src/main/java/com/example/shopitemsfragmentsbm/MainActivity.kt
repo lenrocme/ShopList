@@ -39,12 +39,11 @@ open class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //set animation from xml resource
         fromRight = AnimationUtils.loadAnimation(this, R.anim.enter_from_right)
         fromLeft = AnimationUtils.loadAnimation(this, R.anim.enter_from_left)
         exitLeft = AnimationUtils.loadAnimation(this, R.anim.exit_to_left)
         exitRight = AnimationUtils.loadAnimation(this, R.anim.exit_to_right)
-
-
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.shop_list -> {
@@ -52,12 +51,6 @@ open class MainActivity : AppCompatActivity() {
                     openFragment(R.id.place_holder, FragmentShopLists.newInstance())
                     indexLastSelectedBtmMenuItem = R.id.shop_list
                     binding.tvTextHeaderEnter.text = "Shopping lists"
-
-                    /*val thread = Thread {
-
-
-                    }
-                    thread.start()*/
                 }
                 R.id.shop_items -> {
                     LAST_SELECTED_FRAGMENTS.add(0)
@@ -91,7 +84,6 @@ open class MainActivity : AppCompatActivity() {
                 tvTextHeaderExit.isVisible = true
                 tvTextHeaderExit.startAnimation(exitRight)
                 Handler().postDelayed(Runnable { binding.tvTextHeaderExit.visibility = View.GONE}, 700)
-
             }
             //anim animation left to right
             LAST_SELECTED_FRAGMENTS.last() > LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)]  -> {

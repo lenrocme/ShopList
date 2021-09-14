@@ -1,8 +1,9 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_items
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.*
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -33,11 +34,17 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         //exitTransition = inflater.inflateTransition(R.transition.fade)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
             binding = FragmentShopItemsBinding.inflate(inflater)
+            binding.rcView.setOnTouchListener { _, _ ->
+                if (!adapterShopItem.shopItemsList.isEmpty()) //edText on empty is allways visible
+                    hideEditTextField()
+            false
+            }
             return binding.root//inflater.inflate(R.layout.fragment_shop_items, container, false)
     }
 
@@ -46,12 +53,12 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         binding.imgCreateNewItem.setOnClickListener{
             onClickAddNewShopItem()
         }
-        binding.tvAddShopItem.setOnKeyListener(object : View.OnKeyListener {
+        binding.edTxtShopItems.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 
                 if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and refocus on editText
                         onClickAddNewShopItem()
-                        binding.tvAddShopItem.requestFocus()
+                        binding.edTxtShopItems.requestFocus()
                     return true
                 }
                 return false
@@ -106,13 +113,15 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
     }
 
    private fun onClickAddNewShopItem() = with(binding){
-        if(tvAddShopItem.text.isNotEmpty()) {
-            val shopItem = ShopItemData(tvAddShopItem.text.toString(), false)
+        if(edTxtShopItems.text.isNotEmpty()) {
+            val shopItem = ShopItemData(edTxtShopItems.text.toString(), false)
             adapterShopItem.addShopItem(shopItem)
-            tvAddShopItem.text.clear()
+            edTxtShopItems.text.clear()
             rcView.smoothScrollToPosition(0)   // scroll to first element, after new element is added
             changeDateOnShopListWhenChanged()
         }
+       else
+           hideEditTextField()
     }
 
     override fun onItemClickDelete(position: Int) {
@@ -153,6 +162,19 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             }
         }
         return null
+    }
+
+    //hide editTextField & addButton
+    private fun hideEditTextField() {
+        animOnX(1500, binding.edTxtShopItems)
+        Handler().postDelayed(Runnable { animOnX(1500, binding.imgCreateNewItem)}, 400)
+    }
+
+    private fun animOnX(duration: Long, v:View){
+        ObjectAnimator.ofFloat(v, "translationX", 5000f).apply {//10k for some tablets
+            this.duration = duration
+            start()
+        }
     }
 
     companion object {

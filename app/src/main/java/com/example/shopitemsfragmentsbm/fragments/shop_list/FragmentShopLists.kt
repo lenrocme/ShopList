@@ -1,24 +1,36 @@
 package com.example.shopitemsfragmentsbm.fragments.shop_list
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.HandlerCompat.postDelayed
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.*
 import androidx.transition.TransitionInflater
 import com.example.shopitemsfragmentsbm.*
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopListsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemsSharedPreference
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import java.lang.Runnable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
 var INDEX_LAST_SELECTED_SHOP_LIST: Int = 0
 var SHOP_LIST_Index: String? = null
@@ -37,15 +49,19 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         //exitTransition = inflater.inflateTransition(R.transition.slide_right)
     }
 
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
         ): View? {
             binding = FragmentShopListsBinding.inflate(inflater)
+            binding.rcViewShopList.setOnTouchListener { _, _ ->
+                if (!adapterShopList.shopList.isEmpty())    //edText on empty is allways visible
+                    hideEditTextField()
+            false
+            }
             return binding.root//inflater.inflate(R.layout.fragment_shop_lists, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
@@ -107,6 +123,8 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             edTCreateNewShopList.text.clear()
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
             loadFragmentShopItems()
+        }else{
+            hideEditTextField()
         }
     }
     // select a shoplist and laod data to new fragment with all items
@@ -187,6 +205,19 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     private fun deleteIndexShopList(element: Int){
         SHOP_LIST_Index = null
         INDEX_ShopList_ARR.remove(element)
+    }
+
+    //hide editTextField & addButton
+    private fun hideEditTextField() {
+        animOnX(1500, binding.edTCreateNewShopList)
+        Handler().postDelayed(Runnable { animOnX(1500, binding.imgCreateNewShopList)}, 400)
+    }
+
+    private fun animOnX(duration: Long, v:View){
+        ObjectAnimator.ofFloat(v, "translationX", 5000f).apply {//10k for some tablets
+            this.duration = duration
+            start()
+        }
     }
 
     //singleton
