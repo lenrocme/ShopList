@@ -28,6 +28,9 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        //enterTransition = inflater.inflateTransition(R.transition.slide_right)
+        //exitTransition = inflater.inflateTransition(R.transition.fade)
     }
 
     override fun onCreateView(
@@ -54,7 +57,6 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
                 return false
             }
         })
-
         initRcView()
     }
 

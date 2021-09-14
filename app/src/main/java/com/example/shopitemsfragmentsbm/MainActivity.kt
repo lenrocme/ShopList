@@ -1,25 +1,28 @@
 package com.example.shopitemsfragmentsbm
 
-import android.app.Activity
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.HandlerThread
 import android.view.View
-import android.view.WindowManager
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.HandlerCompat.postDelayed
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.shopitemsfragmentsbm.databinding.ActivityMainBinding
 import com.example.shopitemsfragmentsbm.fragments.info_guide.FragmentInfoGuide
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import com.example.shopitemsfragmentsbm.fragments.shop_list.*
+import kotlinx.coroutines.*
+import java.lang.Runnable
 
 var TEMP_SHOP_LIST_NAME: String? = null
-var LAST_SELECTED_FRAGMENTS: ArrayList<Int> = arrayListOf(5,5)
+var LAST_SELECTED_FRAGMENTS: ArrayList<Int> = arrayListOf(5, 5)
 
 open class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -27,25 +30,39 @@ open class MainActivity : AppCompatActivity() {
     private var indexLastSelectedBtmMenuItem: Int = R.id.shop_list
     private var selectedShopList: String? = null
     var isSecond: Boolean = false
+    private lateinit var fromRight: Animation
+    private lateinit var fromLeft: Animation
+    private lateinit var exitLeft: Animation
+    private lateinit var exitRight: Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //transparentStatusAndNavigation()
-       //setDarkLightDefaultThemeMode()
+        fromRight = AnimationUtils.loadAnimation(this, R.anim.enter_from_right)
+        fromLeft = AnimationUtils.loadAnimation(this, R.anim.enter_from_left)
+        exitLeft = AnimationUtils.loadAnimation(this, R.anim.exit_to_left)
+        exitRight = AnimationUtils.loadAnimation(this, R.anim.exit_to_right)
+
+
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.shop_list -> {
                     LAST_SELECTED_FRAGMENTS.add(-1)
                     openFragment(R.id.place_holder, FragmentShopLists.newInstance())
                     indexLastSelectedBtmMenuItem = R.id.shop_list
-                    binding.tvTopMainAC.text = "Shopping lists"
+                    binding.tvTextHeaderEnter.text = "Shopping lists"
+
+                    /*val thread = Thread {
+
+
+                    }
+                    thread.start()*/
                 }
                 R.id.shop_items -> {
                     LAST_SELECTED_FRAGMENTS.add(0)
                     startFromCache()
-                    binding.tvTopMainAC.text = "Products list"
+                    binding.tvTextHeaderEnter.text = "Products list"
                     //openFragment(R.id.place_holder, FragmentShopItems.newInstance())
                     //indexLastSelectedBtmMenuItem = R.id.shop_items
                 }
@@ -53,7 +70,7 @@ open class MainActivity : AppCompatActivity() {
                     LAST_SELECTED_FRAGMENTS.add(1)
                     openFragment(R.id.place_holder, FragmentInfoGuide.newInstance())
                     indexLastSelectedBtmMenuItem = R.id.info_guide
-                    binding.tvTopMainAC.text = "Info guide"
+                    binding.tvTextHeaderEnter.text = "Info guide"
                 }
                 R.id.dark_light_mode -> {
                     SetThemeMode().changeThemeMode(binding.bottomNavigationView)
@@ -63,11 +80,28 @@ open class MainActivity : AppCompatActivity() {
         glbSharedPref = GlobalSharedPreferences(this)
     }
 
-    private fun openFragment(idHolder: Int, fragment: Fragment){
-        val setAnimationDirection = when{
+    private fun openFragment(idHolder: Int, fragment: Fragment) = with(binding){
+        var setAnimationDirection = 0
+        when{
             LAST_SELECTED_FRAGMENTS.isEmpty() -> 0
-            LAST_SELECTED_FRAGMENTS.last() < LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)]  -> R.anim.slide_in_from_left
-            LAST_SELECTED_FRAGMENTS.last() > LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)]  -> R.anim.slide_in_from_right
+            //anim animation left to right
+            LAST_SELECTED_FRAGMENTS.last() < LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)]  -> {
+                setAnimationDirection = R.anim.slide_in_from_left
+                tvTextHeaderEnter.startAnimation(fromLeft)
+                tvTextHeaderExit.isVisible = true
+                tvTextHeaderExit.startAnimation(exitRight)
+                Handler().postDelayed(Runnable { binding.tvTextHeaderExit.visibility = View.GONE}, 700)
+
+            }
+            //anim animation left to right
+            LAST_SELECTED_FRAGMENTS.last() > LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)]  -> {
+                setAnimationDirection = R.anim.slide_in_from_right
+                tvTextHeaderEnter.startAnimation(fromRight)
+                tvTextHeaderExit.isVisible = true
+                tvTextHeaderExit.startAnimation(exitLeft)
+                Handler().postDelayed(Runnable { binding.tvTextHeaderExit.visibility = View.GONE}, 700)
+
+            }
             LAST_SELECTED_FRAGMENTS.last() == LAST_SELECTED_FRAGMENTS[(LAST_SELECTED_FRAGMENTS.size - 2)] -> 0
             else -> 0
         }
@@ -88,6 +122,7 @@ open class MainActivity : AppCompatActivity() {
                 .replace(idHolder, fragment)
                 .commit()
         }
+        tvTextHeaderExit.text = binding.tvTextHeaderEnter.text
     }
 
     override fun onStart() {
@@ -182,44 +217,9 @@ open class MainActivity : AppCompatActivity() {
         }
         isSecond = true
         Handler().postDelayed(Runnable { isSecond = false }, 1500)
-        Toast.makeText(baseContext, "Press once again to exit!",
-            Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            baseContext, "Press once again to exit!",
+            Toast.LENGTH_SHORT
+        ).show()
     }
-
-    /*fun Activity.transparentStatusAndNavigation(
-        systemUiScrim: Int = Color.parseColor("#40000000") // 25% black
-    ) {
-        var systemUiVisibility = 0
-        // Use a dark scrim by default since light status is API 23+
-
-        //  Use a dark scrim by default since light nav bar is API 27+
-        var navigationBarColor = systemUiScrim
-        val winParams = window.attributes
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            systemUiVisibility = systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-            navigationBarColor = Color.TRANSPARENT
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            systemUiVisibility = systemUiVisibility or
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            window.decorView.systemUiVisibility = systemUiVisibility
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            winParams.flags = winParams.flags or
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            winParams.flags = winParams.flags and
-                    (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS or
-                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION).inv()
-            window.navigationBarColor = navigationBarColor
-        }
-
-        window.attributes = winParams
-    }*/
 }

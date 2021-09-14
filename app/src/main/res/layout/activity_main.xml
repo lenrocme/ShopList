@@ -11,11 +11,33 @@
     <!-- show layout, that u use all window(also navbar space) -->
 
     <TextView
-        android:id="@+id/tvTopMainAC"
+        android:id="@+id/tvTextHeaderEnter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTextHeaderExit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTopPlaceTextHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/top_text_menu_backgorund"
-        android:elevation="10dp"
+        android:elevation="5dp"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTopMainAC"
+        app:layout_constraintTop_toBottomOf="@+id/tvTextHeaderEnter"
         app:layout_constraintVertical_bias="0.0">
 
     </FrameLayout>
