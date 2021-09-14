@@ -2,6 +2,7 @@ package com.example.shopitemsfragmentsbm.fragments.shop_items
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
@@ -44,6 +45,9 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
                 if (!adapterShopItem.shopItemsList.isEmpty()) //edText on empty is allways visible
                     hideEditTextField()
             false
+            }
+            binding.imgCallButtItemList.setOnClickListener{
+                showEditTextField()
             }
             return binding.root//inflater.inflate(R.layout.fragment_shop_items, container, false)
     }
@@ -101,8 +105,8 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
 
     //if we add new item in the shoplist, date gonna be changed
     private fun changeDateOnShopListWhenChanged(){
-        var linkedlist: LinkedList<ShopListData> = LinkedList()
-        var arr = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
+        val linkedlist: LinkedList<ShopListData> = LinkedList()
+        val arr = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
         for (i in 0 until arr.size){
             //Log.i("jora","arr size: ${arr.size}" ) // ? showing right size, but repeat only 2 times
                 if(arr[i].indexShopList == INDEX_LAST_SELECTED_SHOP_LIST)//find right list, change date
@@ -121,7 +125,8 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             changeDateOnShopListWhenChanged()
         }
        else
-           hideEditTextField()
+           if(!isKeyboardVisible())
+               hideEditTextField()
     }
 
     override fun onItemClickDelete(position: Int) {
@@ -166,15 +171,30 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
 
     //hide editTextField & addButton
     private fun hideEditTextField() {
-        animOnX(1500, binding.edTxtShopItems)
-        Handler().postDelayed(Runnable { animOnX(1500, binding.imgCreateNewItem)}, 400)
+        animOnX(800, binding.edTxtShopItems, 1000f)
+        Handler().postDelayed(Runnable { animOnX(400, binding.imgCreateNewItem, 300f)}, 600)
     }
 
-    private fun animOnX(duration: Long, v:View){
-        ObjectAnimator.ofFloat(v, "translationX", 5000f).apply {//10k for some tablets
+    private fun showEditTextField(){
+        animOnX(300, binding.imgCreateNewItem, 0f)
+        Handler().postDelayed(Runnable { animOnX(800, binding.edTxtShopItems, 0f)}, 120)
+    }
+
+    private fun animOnX(duration: Long, v:View, distance: Float){
+        ObjectAnimator.ofFloat(v, "translationX", distance).apply {//10k for some tablets
             this.duration = duration
             start()
         }
+    }
+
+    //check if keyboard is open
+    private fun isKeyboardVisible() : Boolean{
+        val visibleSegmentY = Rect()
+        view?.getWindowVisibleDisplayFrame(visibleSegmentY)
+        val compareDif = view?.height?.minus(visibleSegmentY.height())
+
+        return compareDif != 0
+
     }
 
     companion object {

@@ -44,6 +44,19 @@
             android:scaleType="fitStart"
             app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
 
+        <ImageView
+            android:id="@+id/imgCallButtItemList"
+            android:layout_width="100dp"
+            android:layout_height="57dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="-55dp"
+            android:background="@drawable/bg_add_button"
+            android:elevation="1dp"
+            android:paddingLeft="9dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scaleType="fitStart" />
+
     </LinearLayout>
 
     <ScrollView

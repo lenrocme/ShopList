@@ -2,18 +2,14 @@ package com.example.shopitemsfragmentsbm.fragments.shop_list
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.HandlerCompat.postDelayed
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.*
 import androidx.transition.TransitionInflater
@@ -22,15 +18,12 @@ import com.example.shopitemsfragmentsbm.databinding.FragmentShopListsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemsSharedPreference
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
 import java.lang.Runnable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
 
 var INDEX_LAST_SELECTED_SHOP_LIST: Int = 0
 var SHOP_LIST_Index: String? = null
@@ -59,6 +52,9 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
                 if (!adapterShopList.shopList.isEmpty())    //edText on empty is allways visible
                     hideEditTextField()
             false
+            }
+            binding.imgCallButtShopList.setOnClickListener{
+                showEditTextField()
             }
             return binding.root//inflater.inflate(R.layout.fragment_shop_lists, container, false)
     }
@@ -209,12 +205,17 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
 
     //hide editTextField & addButton
     private fun hideEditTextField() {
-        animOnX(1500, binding.edTCreateNewShopList)
-        Handler().postDelayed(Runnable { animOnX(1500, binding.imgCreateNewShopList)}, 400)
+        animOnX(800, binding.edTCreateNewShopList, 1000f)
+        Handler().postDelayed(Runnable { animOnX(400,  binding.imgCreateNewShopList, 300f)}, 600)
     }
 
-    private fun animOnX(duration: Long, v:View){
-        ObjectAnimator.ofFloat(v, "translationX", 5000f).apply {//10k for some tablets
+    private fun showEditTextField(){
+        animOnX(300, binding.imgCreateNewShopList, 0f)
+        Handler().postDelayed(Runnable { animOnX(800, binding.edTCreateNewShopList, 0f)}, 120)
+    }
+
+    private fun animOnX(duration: Long, v: View, distance: Float){
+        ObjectAnimator.ofFloat(v, "translationX", distance).apply {//10k for some tablets
             this.duration = duration
             start()
         }
