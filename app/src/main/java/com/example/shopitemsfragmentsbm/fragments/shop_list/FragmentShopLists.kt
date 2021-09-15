@@ -2,6 +2,7 @@ package com.example.shopitemsfragmentsbm.fragments.shop_list
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.icu.util.TimeUnit.values
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -17,9 +18,11 @@ import com.example.shopitemsfragmentsbm.*
 import com.example.shopitemsfragmentsbm.databinding.FragmentShopListsBinding
 import com.example.shopitemsfragmentsbm.fragments.shop_items.FragmentShopItems
 import com.example.shopitemsfragmentsbm.fragments.shop_items.ShopItemsSharedPreference
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.*
 import java.lang.Runnable
 import java.time.LocalDateTime
+import java.time.chrono.JapaneseEra.values
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
@@ -170,6 +173,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
     }
 
     //override fun onItemClickCreate(position: Int) {}
+    @SuppressLint("InflateParams")
     override fun onItemClickEdit(position: Int) {
         val itemName = adapterShopList.getShopItemName(position)
         val inflater = layoutInflater

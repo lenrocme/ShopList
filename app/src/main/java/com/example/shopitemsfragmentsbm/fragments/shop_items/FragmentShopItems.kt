@@ -2,6 +2,7 @@ package com.example.shopitemsfragmentsbm.fragments.shop_items
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
@@ -122,16 +123,18 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
     }
 
    private fun onClickAddNewShopItem() = with(binding){
-        if(edTxtShopItems.text.isNotEmpty()) {
+        val check = edTxtShopItems.text.isNotEmpty()
+        if(check) {
             val shopItem = ShopItemData(edTxtShopItems.text.toString(), false)
             adapterShopItem.addShopItem(shopItem)
             edTxtShopItems.text.clear()
             rcView.smoothScrollToPosition(0)   // scroll to first element, after new element is added
             changeDateOnShopListWhenChanged()
         }
-       else
-           if(!isKeyboardVisible())
-               hideEditTextField()
+        else {    //only on empty edit text
+            hideEditTextField()
+            hideKeyboard()
+        }
     }
 
     override fun onItemClickDelete(position: Int) {

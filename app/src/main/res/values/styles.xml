@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style  name="Theme.TransparencyDemo"
-            parent="@android:style/Theme.Holo.Light"/>
+    <style  name="Theme.AlertDialog.customized"
+            parent="@style/Base.CardView"/>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/items_text_color</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/items_text_color</item>
+    </style>
+
+    <style name="NeutralButtonStyle"
+        parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/items_text_color</item>
+    </style>
 </resources>

@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:padding="25dp">
 
+
     <EditText
         android:id="@+id/etEditShopItem"
         android:layout_width="match_parent"
@@ -12,6 +13,10 @@
         android:ems="10"
         android:hint="Edit product name"
         android:inputType="textPersonName"
-        android:text="" />
+        android:text=""
+        android:textColor="@color/gri_bt_nav_icons"
+        android:textColorHighlight="@color/purple_200"
+        android:textColorHint="@color/gri_bt_nav_icons"
+        android:textColorLink="@color/purple_200" />
 
 </LinearLayout>

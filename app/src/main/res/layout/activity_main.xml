@@ -65,6 +65,8 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/btm_nav_backgorund"
         android:foregroundGravity="center_horizontal"
+        app:itemIconTint="@drawable/btm_nav_menu_select"
+        app:itemTextColor="@drawable/btm_nav_menu_select"
         app:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
