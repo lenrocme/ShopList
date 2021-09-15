@@ -13,4 +13,7 @@
     <color name="rose_main_color">#FF19FB</color>
     <color name="main_background_light">#41C835FD</color>
     <color name="item_bg_color">#AEF85999</color>
+    <color name="item_bg_color_on_items_them1">#34FFFFFF</color>
+    <color name="item_bg_color_on_items_them2">#B2F5DBFD</color>
+    <color name="items_text_color">#757474</color>
 </resources>

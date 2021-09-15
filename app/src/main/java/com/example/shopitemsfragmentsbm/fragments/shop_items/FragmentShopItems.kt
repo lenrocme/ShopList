@@ -46,6 +46,11 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
                     hideEditTextField()
             false
             }
+            binding.scrollRcView.setOnTouchListener { _, _ ->
+                if (!adapterShopItem.shopItemsList.isEmpty()) //edText on empty is allways visible
+                    hideEditTextField()
+                false
+            }
             binding.imgCallButtItemList.setOnClickListener{
                 showEditTextField()
             }
@@ -77,7 +82,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         arrListShopItem = ShopItemsSharedPreference().loadShopItemSharedPref(requireActivity(), SHOP_LIST_Index!!)
         adapterShopItem.shopItemsList = LinkedList(arrListShopItem) //make a linkedLIst from add list and load in adapter
         adapterShopItem.setRecycleView(binding.rcView)      //send rcView object to Adapter
-        binding.tvNameShopListInShopItemFr.text = "#${getShopListName()}"
+        (activity as MainActivity).binding.tvTextHeaderEnter.text = "List: ${getShopListName()}"
     }
 
     override fun onStop() {
@@ -193,7 +198,10 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         view?.getWindowVisibleDisplayFrame(visibleSegmentY)
         val compareDif = view?.height?.minus(visibleSegmentY.height())
 
-        return compareDif != 0
+        if (compareDif != null) {
+            return compareDif > 0
+        }
+        return false
 
     }
 

@@ -4,17 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background_light"
+    android:background="@drawable/bg_main_2"
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
     <!-- show layout, that u use all window(also navbar space) -->
 
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="-48dp"
+        android:background="@color/main_background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvTextHeaderEnter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
+        android:elevation="11dp"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +37,7 @@
         android:id="@+id/tvTextHeaderExit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
+        android:elevation="11dp"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,9 +49,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/top_text_menu_backgorund"
-        android:elevation="5dp"
         android:textAlignment="center"
         android:textSize="24sp"
+        app:elevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +65,6 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/btm_nav_backgorund"
         android:foregroundGravity="center_horizontal"
-        app:backgroundTint="@color/rose_main_color"
         app:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +78,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="-48dp"
-        android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

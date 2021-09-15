@@ -50,7 +50,7 @@
             android:layout_height="57dp"
             android:layout_gravity="right"
             android:layout_marginLeft="-55dp"
-            android:background="@drawable/bg_add_button"
+            android:background="@drawable/bd_call_add_button"
             android:elevation="1dp"
             android:paddingLeft="9dp"
             android:paddingTop="8dp"
@@ -60,6 +60,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollRcView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="-85dp">
@@ -85,15 +86,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvNameShopListInShopItemFr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingRight="5dp"
-            android:textAlignment="textEnd" />
-
-    </LinearLayout>
+        android:orientation="vertical"/>
 
 </FrameLayout>

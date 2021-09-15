@@ -14,7 +14,7 @@
         android:layout_marginTop="22dp"
         android:layout_marginRight="25dp"
         android:foregroundGravity="center"
-        app:cardBackgroundColor="#34FFFFFF"
+        app:cardBackgroundColor="@color/item_bg_color_on_items_them2"
         app:cardCornerRadius="20dp"
 
 
@@ -46,7 +46,8 @@
                     android:layout_weight="1"
                     android:paddingLeft="16dp"
                     android:paddingTop="4dp"
-                    android:text="Added: 20.08.2021" />
+                    android:text="Added: 20.08.2021"
+                    android:textColor="@color/items_text_color" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -84,6 +85,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="15dp"
                 android:text="Geburtstag-List"
+                android:textColor="@color/items_text_color"
                 android:textSize="28sp" />
 
             <LinearLayout
@@ -98,7 +100,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="16dp"
-                    android:text="Changed: 25.08.2021" />
+                    android:text="Changed: 25.08.2021"
+                    android:textColor="@color/items_text_color" />
 
                 <TextView
                     android:id="@+id/tvCountItemsShopList"
@@ -107,7 +110,8 @@
                     android:layout_weight="1"
                     android:paddingRight="14dp"
                     android:text="#17"
-                    android:textAlignment="textEnd" />
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/items_text_color" />
             </LinearLayout>
 
         </LinearLayout>

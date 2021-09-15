@@ -11,7 +11,7 @@
         android:layout_marginTop="7dp"
         android:layout_marginRight="11dp"
         android:foregroundGravity="center"
-        app:cardBackgroundColor="#40FFFFFF"
+        app:cardBackgroundColor="@color/item_bg_color_on_items_them2"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView"
+                android:textColor="@color/items_text_color"
                 android:textSize="24sp" />
 
             <ImageView

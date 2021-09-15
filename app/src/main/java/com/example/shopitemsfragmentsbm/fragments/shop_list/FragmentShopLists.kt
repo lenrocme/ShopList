@@ -53,6 +53,11 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
                     hideEditTextField()
             false
             }
+            binding.scrollRcView.setOnTouchListener{ _,_ ->
+                if (!adapterShopList.shopList.isEmpty())    //edText on empty is allways visible
+                    hideEditTextField()
+                false
+            }
             binding.imgCallButtShopList.setOnClickListener{
                 showEditTextField()
             }
