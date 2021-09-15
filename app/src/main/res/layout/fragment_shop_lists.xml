@@ -38,7 +38,7 @@
             android:layout_gravity="right"
             android:layout_marginLeft="-54dp"
             android:background="@drawable/bg_add_button"
-            android:elevation="3dp"
+            android:elevation="4dp"
             android:paddingLeft="9dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"

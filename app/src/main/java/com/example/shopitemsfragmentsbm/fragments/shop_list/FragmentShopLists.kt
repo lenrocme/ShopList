@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.icu.util.TimeUnit.values
 import android.os.Bundle
 import android.os.Handler
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -72,11 +73,22 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         binding.imgCreateNewShopList.setOnClickListener{
             onClickAddNewShopItem()
         }
+        binding.edTCreateNewShopList.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                if (event.keyCode == KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and go to next fragment with this item
+                    onClickAddNewShopItem()
+                    binding.edTCreateNewShopList.requestFocus()
+                    return true
+                }
+                return false
+            }
+        })
         initRcView()
     }
 
     override fun onStart() {
         super.onStart()
+        onStartHideEditTextField()
         //INDEX_ShopList_ARR = ShopListSharedPreference(requireActivity()).loadIndexShopListArr() // start on mainactiv
         arrListShopLists = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
         adapterShopList.shopList = LinkedList(arrListShopLists) //make a linkedLIst from add list and load in adapter
@@ -84,6 +96,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             onCreateFirstShopList()
             TEMP_SHOP_LIST_NAME = null
         }
+        Handler().postDelayed(Runnable { showEditTextField() }, 350)
     }
 
     override fun onStop() {
@@ -159,6 +172,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             setView(dialogView)
             show()
         }
+        showKeyboard()
     }
 
     override fun onItemClickDelete(position: Int) {
@@ -196,6 +210,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             setView(dialogView)
             show()
         }
+        showKeyboard()
     }
 
     private fun addIndexShopList():Int{
@@ -229,6 +244,11 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             this.duration = duration
             start()
         }
+    }
+
+    private fun onStartHideEditTextField() {
+        animOnX(0, binding.edTCreateNewShopList, 1000f)
+        animOnX(0,  binding.imgCreateNewShopList, 300f)
     }
 
     //singleton

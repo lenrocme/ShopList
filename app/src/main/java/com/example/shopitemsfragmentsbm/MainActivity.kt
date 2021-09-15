@@ -3,6 +3,7 @@ package com.example.shopitemsfragmentsbm
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -150,8 +151,9 @@ open class MainActivity : AppCompatActivity() {
                 if(INDEX_ShopList_ARR.contains(INDEX_LAST_SELECTED_SHOP_LIST)) {    // index has been found, use it, open fragment with ShopItems from ShopList with this index
                     SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
                     indexLastSelectedBtmMenuItem = R.id.shop_items
-                    binding.bottomNavigationView.selectedItemId = R.id.shop_items
-                    //openFragment(R.id.place_holder, FragmentShopItems.newInstance())
+                    Log.i("jora", "dadada" )
+                    //binding.bottomNavigationView.selectedItemId = R.id.shop_items
+                    openFragment(R.id.place_holder, FragmentShopItems.newInstance())
                 }
                 else{
                     if(INDEX_ShopList_ARR.isNotEmpty()){        // index wasn't been found, but array with all indexes are not empty, mean ShopList with that index was deleted

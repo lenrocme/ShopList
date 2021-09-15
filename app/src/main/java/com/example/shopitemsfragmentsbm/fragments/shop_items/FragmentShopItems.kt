@@ -54,7 +54,6 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             }
             binding.imgCallButtItemList.setOnClickListener{
                 showEditTextField()
-                showKeyboard()
             }
             return binding.root//inflater.inflate(R.layout.fragment_shop_items, container, false)
     }
@@ -67,7 +66,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         binding.edTxtShopItems.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 
-                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and refocus on editText
+                if (event.keyCode == KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and refocus on editText
                         onClickAddNewShopItem()
                         binding.edTxtShopItems.requestFocus()
                     return true
@@ -80,11 +79,13 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
 
     override fun onStart() {
         super.onStart()
+        onStartHideEditTextField()
         arrListShopLists = ShopListSharedPreference(requireActivity()).loadShopListSharedPref()
         arrListShopItem = ShopItemsSharedPreference().loadShopItemSharedPref(requireActivity(), SHOP_LIST_Index!!)
         adapterShopItem.shopItemsList = LinkedList(arrListShopItem) //make a linkedLIst from add list and load in adapter
         adapterShopItem.setRecycleView(binding.rcView)      //send rcView object to Adapter
         (activity as MainActivity).binding.tvTextHeaderEnter.text = "List: ${getShopListName()}"
+        Handler().postDelayed(Runnable { showEditTextField() }, 350)
     }
 
     override fun onStop() {
@@ -166,6 +167,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             setView(dialogView)
             show()
         }
+        showKeyboard()
     }
 
     //get name shoplist for edit name fragment shopitems
@@ -195,6 +197,11 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             start()
         }
     }
+    private fun onStartHideEditTextField(){
+        animOnX(0, binding.edTxtShopItems, 1000f)
+        animOnX(0, binding.imgCreateNewItem, 300f)
+    }
+
 
     //check if keyboard is open
     private fun isKeyboardVisible() : Boolean{
