@@ -54,6 +54,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             }
             binding.imgCallButtItemList.setOnClickListener{
                 showEditTextField()
+                showKeyboard()
             }
             return binding.root//inflater.inflate(R.layout.fragment_shop_items, container, false)
     }

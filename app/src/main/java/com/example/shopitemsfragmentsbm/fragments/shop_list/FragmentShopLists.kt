@@ -129,6 +129,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             loadFragmentShopItems()
         }else{
             hideEditTextField()
+            hideKeyboard()
         }
     }
     // select a shoplist and laod data to new fragment with all items
