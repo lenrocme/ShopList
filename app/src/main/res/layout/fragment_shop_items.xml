@@ -17,7 +17,7 @@
 
 
         <EditText
-            android:id="@+id/ed_txt_shop_items"
+            android:id="@+id/edTxtShopItems"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="50dp"

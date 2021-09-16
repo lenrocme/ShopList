@@ -55,10 +55,11 @@ open class MainActivity : AppCompatActivity() {
                 }
                 R.id.shop_items -> {
                     LAST_SELECTED_FRAGMENTS.add(0)
+                    indexLastSelectedBtmMenuItem = R.id.shop_items
                     startFromCache()
                     binding.tvTextHeaderEnter.text = "Products list"
                     //openFragment(R.id.place_holder, FragmentShopItems.newInstance())
-                    //indexLastSelectedBtmMenuItem = R.id.shop_items
+
                 }
                 R.id.info_guide -> {
                     LAST_SELECTED_FRAGMENTS.add(1)
@@ -152,8 +153,9 @@ open class MainActivity : AppCompatActivity() {
                     SHOP_LIST_Index = INDEX_LAST_SELECTED_SHOP_LIST.toString()
                     indexLastSelectedBtmMenuItem = R.id.shop_items
                     Log.i("jora", "dadada" )
-                    //binding.bottomNavigationView.selectedItemId = R.id.shop_items
-                    openFragment(R.id.place_holder, FragmentShopItems.newInstance())
+                    //openFragment(R.id.place_holder, FragmentShopItems.newInstance())
+                    binding.bottomNavigationView.selectedItemId = R.id.shop_items
+
                 }
                 else{
                     if(INDEX_ShopList_ARR.isNotEmpty()){        // index wasn't been found, but array with all indexes are not empty, mean ShopList with that index was deleted

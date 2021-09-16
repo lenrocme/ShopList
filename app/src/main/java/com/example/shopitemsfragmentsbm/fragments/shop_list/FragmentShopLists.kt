@@ -75,12 +75,12 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         }
         binding.edTCreateNewShopList.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
-                if (event.keyCode == KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and go to next fragment with this item
+                if (event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {    //on click enter, use function add new item, and go to next fragment with this item
                     onClickAddNewShopItem()
                     binding.edTCreateNewShopList.requestFocus()
                     return true
                 }
-                return false
+                return true
             }
         })
         initRcView()
@@ -105,6 +105,7 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
         ShopListSharedPreference(requireActivity()).saveIndexShopListArr(INDEX_ShopList_ARR)
         ShopListSharedPreference(requireActivity()).saveIndexLastSelectedShopList(INDEX_LAST_SELECTED_SHOP_LIST)
         //SharedPreferenceGlobal().saveShopListSharedPref(requireActivity(), adapterShopList.shopList)
+        hideKeyboard()
     }
 
     private fun initRcView() = with(binding){
@@ -141,8 +142,10 @@ class FragmentShopLists : Fragment(), AdapterShopList.OnItemClickListenerShopLis
             rcViewShopList.smoothScrollToPosition(0)   // scroll to first element, after new element is added
             loadFragmentShopItems()
         }else{
-            hideEditTextField()
-            hideKeyboard()
+            if (!adapterShopList.shopList.isEmpty()) {   //edText on empty is allways visible
+                hideEditTextField()
+                hideKeyboard()
+            }
         }
     }
     // select a shoplist and laod data to new fragment with all items

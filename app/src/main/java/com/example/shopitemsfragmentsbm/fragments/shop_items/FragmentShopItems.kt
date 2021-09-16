@@ -2,10 +2,9 @@ package com.example.shopitemsfragmentsbm.fragments.shop_items
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -28,6 +27,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
     lateinit var nameOfList: String
     private lateinit var arrListShopItem: ArrayList<ShopItemData>//LinkedList<ShopItem>
     private lateinit var arrListShopLists: ArrayList<ShopListData>
+    private var checkOnEmptyEdText: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,25 +55,24 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
             binding.imgCallButtItemList.setOnClickListener{
                 showEditTextField()
             }
+            binding.imgCreateNewItem.setOnClickListener{
+                onClickAddNewShopItem()
+            }
+            binding.edTxtShopItems.setOnKeyListener(object : View.OnKeyListener {
+                override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                    if (event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {    //on click enter, use function add new item, and refocus on editText
+                        onClickAddNewShopItem()
+                        return true
+                    }
+                    return true
+                }
+            })
             return binding.root//inflater.inflate(R.layout.fragment_shop_items, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.imgCreateNewItem.setOnClickListener{
-            onClickAddNewShopItem()
-        }
-        binding.edTxtShopItems.setOnKeyListener(object : View.OnKeyListener {
-            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 
-                if (event.keyCode == KeyEvent.KEYCODE_ENTER) {    //on click enter, use function add new item, and refocus on editText
-                        onClickAddNewShopItem()
-                        binding.edTxtShopItems.requestFocus()
-                    return true
-                }
-                return false
-            }
-        })
         initRcView()
     }
 
@@ -91,6 +90,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
     override fun onStop() {
         super.onStop()
         ShopItemsSharedPreference().saveShopItemsSharedPref(requireActivity(), SHOP_LIST_Index!!, adapterShopItem.shopItemsList)
+        hideKeyboard()
     }
 
     private fun initRcView() = with(binding){
@@ -124,20 +124,25 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         ShopListSharedPreference(requireActivity()).saveShopListSharedPref(linkedlist)
     }
 
-   private fun onClickAddNewShopItem() = with(binding){
-        val check = edTxtShopItems.text.isNotEmpty()
-        if(check) {
-            val shopItem = ShopItemData(edTxtShopItems.text.toString(), false)
-            adapterShopItem.addShopItem(shopItem)
-            edTxtShopItems.text.clear()
-            rcView.smoothScrollToPosition(0)   // scroll to first element, after new element is added
-            changeDateOnShopListWhenChanged()
-        }
-        else {    //only on empty edit text
-            hideEditTextField()
-            hideKeyboard()
-        }
-    }
+   private fun onClickAddNewShopItem() = with(binding) {
+       val valueTxt: String = edTxtShopItems.text.toString()
+       if (valueTxt.isNotEmpty()) {
+           val shopItem = ShopItemData(valueTxt, false)
+           adapterShopItem.addShopItem(shopItem)
+           rcView.smoothScrollToPosition(0)   // scroll to first element, after new element is added
+           changeDateOnShopListWhenChanged()
+           edTxtShopItems.text.clear()
+           animatedOnEnterorAdd()
+       }
+       else{
+           if (!adapterShopItem.shopItemsList.isEmpty()) {   //edText on empty is allways visible
+               hideEditTextField()
+               hideKeyboard()
+           }
+           else
+               animatedOnEnterorAdd()
+       }
+   }
 
     override fun onItemClickDelete(position: Int) {
         changeDateOnShopListWhenChanged()
@@ -182,6 +187,7 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
 
     //hide editTextField & addButton
     private fun hideEditTextField() {
+        Log.i("jroa", 1.toString())
         animOnX(800, binding.edTxtShopItems, 1000f)
         Handler().postDelayed(Runnable { animOnX(400, binding.imgCreateNewItem, 300f)}, 600)
     }
@@ -201,19 +207,9 @@ class FragmentShopItems() : Fragment(), AdapterShopItem.OnItemClickListener {
         animOnX(0, binding.edTxtShopItems, 1000f)
         animOnX(0, binding.imgCreateNewItem, 300f)
     }
-
-
-    //check if keyboard is open
-    private fun isKeyboardVisible() : Boolean{
-        val visibleSegmentY = Rect()
-        view?.getWindowVisibleDisplayFrame(visibleSegmentY)
-        val compareDif = view?.height?.minus(visibleSegmentY.height())
-
-        if (compareDif != null) {
-            return compareDif > 0
-        }
-        return false
-
+    private fun animatedOnEnterorAdd(){
+        Handler().postDelayed(Runnable { animOnX(200, binding.edTxtShopItems, 200f)}, 50)
+        Handler().postDelayed(Runnable { animOnX(200, binding.edTxtShopItems, 0f)}, 210)
     }
 
     companion object {
