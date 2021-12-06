@@ -54,7 +54,7 @@
     <!-- Background -->
     <item>
         <shape>
-            <solid android:color="#FFF" />
+            <solid android:color="@color/edit_txt_field" />
             <corners android:radius="25dp" />
         </shape>
     </item>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="edit_txt_field">#333333</color>
+    <color name="activ_color_btm_nav_menu">#C1C1C1</color>
+    <color name="tehmcolor_toll_bar">#870085</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#D8D8D8</color>
+    <color name="rose_bt_nav">#A13762</color>
+    <color name="gri_bt_nav_icons">#636262</color>
+    <color name="rose_main_color">#870085</color>
+    <color name="main_background_light">#BF15001C</color>
+    <color name="item_bg_color">#AEF85999</color>
+    <color name="item_bg_color_on_items_them1">#34FFFFFF</color>
+    <color name="item_bg_color_on_items_them2">#BA191922</color>
+    <color name="items_text_color">#C5C5C5</color>
+    <color name="btm_nav_icons_color">#272727</color>
+</resources>
